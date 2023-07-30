@@ -1,0 +1,612 @@
+<div class="container">
+  <svg
+    id="wave2"
+    class="first"
+    style="transform: rotate(0deg); transition: 0.3s"
+    viewBox="0 0 1440 300"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0">
+        <stop stop-color="rgba(225, 235, 245, 1)" offset="0%"></stop>
+        <stop stop-color="rgba(186, 197, 243, 1)" offset="100%"></stop>
+      </linearGradient>
+    </defs>
+    <path
+      style="transform: translate(0, 0px); opacity: 1"
+      fill="url(#sw-gradient-0)"
+      d="M0,210L80,200C160,190,320,170,480,175C640,180,800,210,960,205C1120,200,1280,160,1440,135C1600,110,1760,100,1920,100C2080,100,2240,110,2400,100C2560,90,2720,60,2880,80C3040,100,3200,170,3360,185C3520,200,3680,160,3840,135C4000,110,4160,100,4320,110C4480,120,4640,150,4800,155C4960,160,5120,140,5280,155C5440,170,5600,220,5760,240C5920,260,6080,250,6240,205C6400,160,6560,80,6720,85C6880,90,7040,180,7200,195C7360,210,7520,150,7680,145C7840,140,8000,190,8160,190C8320,190,8480,140,8640,135C8800,130,8960,170,9120,185C9280,200,9440,190,9600,160C9760,130,9920,80,10080,85C10240,90,10400,150,10560,170C10720,190,10880,170,11040,170C11200,170,11360,190,11440,200L11520,210L11520,300L11440,300C11360,300,11200,300,11040,300C10880,300,10720,300,10560,300C10400,300,10240,300,10080,300C9920,300,9760,300,9600,300C9440,300,9280,300,9120,300C8960,300,8800,300,8640,300C8480,300,8320,300,8160,300C8000,300,7840,300,7680,300C7520,300,7360,300,7200,300C7040,300,6880,300,6720,300C6560,300,6400,300,6240,300C6080,300,5920,300,5760,300C5600,300,5440,300,5280,300C5120,300,4960,300,4800,300C4640,300,4480,300,4320,300C4160,300,4000,300,3840,300C3680,300,3520,300,3360,300C3200,300,3040,300,2880,300C2720,300,2560,300,2400,300C2240,300,2080,300,1920,300C1760,300,1600,300,1440,300C1280,300,1120,300,960,300C800,300,640,300,480,300C320,300,160,300,80,300L0,300Z"
+    ></path>
+  </svg>
+
+  <div class="div-img">
+    <img
+      class="logo"
+      fill
+      ngSrc="assets/images/harvest-low-resolution-logo-color-on-transparent-background (4).png"
+      priority
+    />
+  </div>
+
+  <form [formGroup]="form">
+    <mat-stepper
+      [orientation]="(stepperOrientation | async)!"
+      animationDuration="2000"
+      class="stepper"
+      linear="true"
+    >
+      <mat-step
+        [stepControl]="form.controls.user_info.controls.role"
+        formGroupName="user_info"
+      >
+        <mat-card class="btn-div">
+          <mat-card-header class="title"> Choose Your Role </mat-card-header>
+          <mat-radio-group
+            required
+            disableRipple="false"
+            formControlName="role"
+            aria-label="Select Your Role"
+          >
+            <mat-radio-button value="company">
+              <button
+                type="button"
+                [color]="
+                  form.controls.user_info.value.role === 'company'
+                    ? 'accent'
+                    : 'primary'
+                "
+                mat-fab
+                extended
+                (click)="
+                  form.controls.user_info.controls.role.patchValue('company')
+                "
+              >
+                <mat-icon
+                  [color]="
+                    form.controls.user_info.value.role !== 'company'
+                      ? 'accent'
+                      : 'primary'
+                  "
+                  >business</mat-icon
+                >
+                <div class="btn-para">
+                  Company
+                  <small> If You Need To sill Product </small>
+                </div>
+              </button>
+            </mat-radio-button>
+            <mat-radio-button value="customer">
+              <button
+                type="button"
+                [color]="
+                  form.controls.user_info.value.role === 'customer'
+                    ? 'accent'
+                    : 'primary'
+                "
+                mat-fab
+                extended
+                (click)="
+                  this.form.controls.user_info.controls.role.patchValue(
+                    'customer'
+                  )
+                "
+              >
+                <mat-icon
+                  [color]="
+                    form.controls.user_info.value.role !== 'customer'
+                      ? 'accent'
+                      : 'primary'
+                  "
+                  >person</mat-icon
+                >
+                <div class="btn-para">
+                  Customer
+                  <small> If You Need To buy Product </small>
+                </div>
+              </button>
+            </mat-radio-button>
+            <mat-radio-button value="bank">
+              <button
+                type="button"
+                [color]="
+                  form.controls.user_info.value.role === 'bank'
+                    ? 'accent'
+                    : 'primary'
+                "
+                mat-fab
+                extended
+                (click)="
+                  form.controls.user_info.controls.role.patchValue('bank')
+                "
+              >
+                <mat-icon
+                  [color]="
+                    form.controls.user_info.value.role !== 'bank'
+                      ? 'accent'
+                      : 'primary'
+                  "
+                  >account_balance</mat-icon
+                >
+                <div class="btn-para">
+                  Bank
+                  <small> If You Need Manage Finance </small>
+                </div>
+              </button>
+            </mat-radio-button>
+            <mat-radio-button value="deleviery">
+              <button
+                type="button"
+                mat-fab
+                extended
+                [color]="
+                  form.controls.user_info.value.role === 'deleviery'
+                    ? 'accent'
+                    : 'primary'
+                "
+                (click)="
+                  form.controls.user_info.controls.role.patchValue('deleviery')
+                "
+              >
+                <mat-icon
+                  [color]="
+                    form.controls.user_info.value.role !== 'deleviery'
+                      ? 'accent'
+                      : 'primary'
+                  "
+                  >local_shipping</mat-icon
+                >
+
+                <div class="btn-para">
+                  Deleviery
+                  <small> If You Need To Deliver Product </small>
+                </div>
+              </button>
+            </mat-radio-button>
+          </mat-radio-group>
+          <div class="action-div">
+            <button
+              type="button"
+              matStepperPrevious
+              mat-raised-button
+              [disabled]="form.controls.user_info.value.role === ''"
+              color="accent"
+            >
+              Preivous
+              <!-- <mat-icon color="primary">chevron_left</mat-icon> -->
+            </button>
+            <button
+              type="button"
+              matStepperNext
+              mat-raised-button
+              [disabled]="form.controls.user_info.value.role === ''"
+              color="primary"
+            >
+              Next
+            </button>
+          </div>
+        </mat-card>
+      </mat-step>
+
+      <mat-step
+        formGroupName="user_info"
+        [stepControl]="form.controls.user_info"
+      >
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" />
+          <mat-error
+            *ngIf="
+              form.controls.user_info.controls.username.invalid &&
+              form.controls.user_info.controls.username.touched
+            "
+            >{{ getUsernameErrorMessage() }}</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+          <mat-error
+            *ngIf="
+              form.controls.user_info.controls.email.invalid &&
+              form.controls.user_info.controls.email.touched
+            "
+            >{{ getEmailErrorMessage() }}</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>password</mat-label>
+          <input matInput type="password" formControlName="password" />
+          <mat-error
+            *ngIf="
+              form.controls.user_info.controls.password.invalid &&
+              form.controls.user_info.controls.password.touched
+            "
+            >{{ getPasswordErrorMessage() }}</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Confirm password</mat-label>
+          <input
+            formControlName="confirm"
+            matInput
+            type="password"
+            #confirmP
+            name="confirm"
+            required
+          />
+          <mat-error *ngIf="form.controls.user_info.controls.confirm.invalid">{{
+            getConfirmErrorMessage()
+          }}</mat-error>
+        </mat-form-field>
+
+        <div class="phone">
+          <mat-form-field name="prefix-input">
+            <mat-select
+              (selectionChange)="addPrefix()"
+              class="prefix"
+              matPrefix
+              [(value)]="prefix"
+            >
+              <mat-option
+                *ngFor="let item of countries"
+                [value]="item.idd.root + (item.idd.suffixes?.[0] || '')"
+              >
+                {{ item.name.common }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Phone Number</mat-label>
+            <!-- pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" -->
+            <input
+              [mask]="getprefix()"
+              (change)="preventRemovePrefix()"
+              matInput
+              type="tel"
+              formControlName="phone_number"
+            />
+            <mat-error
+              *ngIf="
+                form.controls.user_info.controls.phone_number.invalid &&
+                form.controls.user_info.controls.phone_number.touched
+              "
+            >
+              number is required</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="action-div">
+          <button
+            type="button"
+            matStepperPrevious
+            mat-raised-button
+            [disabled]="
+              form.controls.user_info.controls.username.invalid ||
+              form.controls.user_info.controls.email.invalid ||
+              form.controls.user_info.controls.password.invalid ||
+              form.controls.user_info.controls.phone_number.invalid ||
+              form.controls.user_info.controls.confirm.invalid
+            "
+            color="accent"
+          >
+            Preivous
+            <!-- <mat-icon color="primary">chevron_left</mat-icon> -->
+          </button>
+          <button
+            type="button"
+            matStepperNext
+            mat-raised-button
+            color="primary"
+            [disabled]="
+              form.controls.user_info.controls.username.invalid ||
+              form.controls.user_info.controls.email.invalid ||
+              form.controls.user_info.controls.password.invalid ||
+              form.controls.user_info.controls.phone_number.invalid ||
+              form.controls.user_info.controls.confirm.invalid
+            "
+          >
+            Next
+            <!-- <mat-icon color="primary">next</mat-icon> -->
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="form.controls.other_info">
+        <!-- [stepControl]="form.controls.otherInfo" -->
+        <ng-container
+          [formGroup]="customerForm"
+          *ngIf="form.controls.user_info.value.role === 'customer'"
+        >
+          <mat-form-field>
+            <mat-label>First Name</mat-label>
+            <input matInput name="firstName" formControlName="firstName" />
+            <mat-error></mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput name="lastName" formControlName="lastName" />
+            <mat-error></mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Birth Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="birthPicker"
+              placeholder="YYYY/MM/DD"
+              formControlName="birth_date"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="birthPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker
+              #birthPicker
+              startView="multi-year"
+            ></mat-datepicker>
+            <mat-hint>YYYY/MM/DD</mat-hint>
+            <mat-error></mat-error>
+          </mat-form-field>
+        </ng-container>
+        <ng-container
+          [formGroup]="companyForm"
+          *ngIf="form.controls.user_info.value.role === 'company'"
+        >
+          <mat-form-field>
+            <mat-label>Company Name</mat-label>
+            <input matInput name="Name" formControlName="name" />
+            <mat-error></mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Work Description</mat-label>
+            <textarea
+              #desc
+              matInput
+              name="descripton"
+              rows="4"
+              maxlength="180"
+              formControlName="description"
+              matInput
+            ></textarea>
+            <mat-hint>{{ desc.value.length }} / 180</mat-hint>
+            <mat-error></mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Release Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="yearpicker"
+              placeholder="YYYY"
+              formControlName="release_date"
+              #inpyeardate
+              hidden
+            />
+            <input matInput [value]="inpyeardate.value.slice(6)" />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="yearpicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker
+              (yearSelected)="onYearSelected($event, yearpicker)"
+              #yearpicker
+              startView="multi-year"
+              yearSelect="true"
+              [panelClass]="'year-picker'"
+            ></mat-datepicker>
+            <mat-hint>YYYY</mat-hint>
+            <mat-error></mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label> Categories </mat-label>
+            <mat-chip-grid #chipGrid aria-label="Category selection">
+              <mat-chip-row
+                *ngFor="let category of companyForm.value.categories"
+                (removed)="removeCategory(category)"
+              >
+                {{ category }}
+                <button matChipRemove [attr.aria-label]="'remove' + category">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+            </mat-chip-grid>
+            <input
+              placeholder="New category...."
+              #categoryInput
+              [formControl]="categoryCtrl"
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipGrid"
+              (matChipInputTokenEnd)="addCategory($event)"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            />
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              (optionSelected)="selectedCategory($event)"
+            >
+              <mat-option
+                *ngFor="let item of filteredCatgeories | async"
+                [value]="item"
+                >{{ item }}</mat-option
+              >
+            </mat-autocomplete>
+          </mat-form-field>
+        </ng-container>
+        <ng-container
+          [formGroup]="delevieryForm"
+          *ngIf="form.controls.user_info.value.role === 'deleviery'"
+        >
+          <mat-form-field>
+            <mat-label>Company Name</mat-label>
+            <input matInput name="Name" formControlName="name" />
+            <mat-error></mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Work Description</mat-label>
+            <textarea
+              #desc
+              matInput
+              name="descripton"
+              rows="4"
+              maxlength="180"
+              formControlName="description"
+              matInput
+            ></textarea>
+            <mat-hint>{{ desc.value.length }} / 180</mat-hint>
+            <mat-error></mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label> Categories </mat-label>
+            <mat-chip-grid #chipGrid aria-label="Category selection">
+              <mat-chip-row
+                *ngFor="let category of companyForm.value.categories"
+                (removed)="removeCategory(category)"
+              >
+                {{ category }}
+                <button matChipRemove [attr.aria-label]="'remove' + category">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+            </mat-chip-grid>
+            <input
+              placeholder="New category...."
+              #categoryInput
+              [formControl]="categoryCtrl"
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipGrid"
+              (matChipInputTokenEnd)="addCategory($event)"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            />
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              (optionSelected)="selectedCategory($event)"
+            >
+              <mat-option
+                *ngFor="let item of filteredCatgeories | async"
+                [value]="item"
+                >{{ item }}</mat-option
+              >
+            </mat-autocomplete>
+          </mat-form-field>
+        </ng-container>
+        <ng-container
+          [formGroup]="bankForm"
+          *ngIf="form.controls.user_info.value.role === 'bank'"
+        >
+          <mat-form-field>
+            <mat-label>Company Name</mat-label>
+            <input matInput name="Name" formControlName="name" />
+            <mat-error></mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Work Description</mat-label>
+            <textarea
+              #desc
+              matInput
+              name="descripton"
+              rows="4"
+              maxlength="180"
+              formControlName="description"
+              matInput
+            ></textarea>
+            <mat-hint>{{ desc.value.length }} / 180</mat-hint>
+            <mat-error></mat-error>
+          </mat-form-field>
+        </ng-container>
+        <ng-container [formGroup]="form">
+          <ng-container formGroupName="other_info">
+            <mat-form-field>
+              <mat-label>Country</mat-label>
+              <mat-select
+                formControlName="country"
+                (selectionChange)="getState($event)"
+                #country
+              >
+                <mat-option
+                  #countryList
+                  *ngFor="let item of countries"
+                  [value]="item.name.common"
+                  >{{ item.name.common }}</mat-option
+                >
+              </mat-select>
+              <mat-error></mat-error>
+            </mat-form-field>
+            <mat-form-field *ngIf="cities.length > 0">
+              <mat-label>City</mat-label>
+              <mat-select formControlName="city">
+                <mat-option *ngFor="let item of cities" [value]="item">{{
+                  item
+                }}</mat-option>
+              </mat-select>
+              <mat-error></mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Currency</mat-label>
+              <mat-select formControlName="currency">
+                <mat-option *ngFor="let item of currencies" [value]="item">{{
+                  item
+                }}</mat-option>
+              </mat-select>
+              <mat-error></mat-error>
+            </mat-form-field>
+          </ng-container>
+        </ng-container>
+        <div class="action-div">
+          <button
+            type="button"
+            matStepperPrevious
+            mat-raised-button
+            [disabled]="
+              form.controls.other_info.controls.currency.invalid ||
+              form.controls.other_info.controls.country.invalid ||
+              form.controls.other_info.controls.city.invalid
+            "
+            color="accent"
+          >
+            Preivous
+            <!-- <mat-icon color="primary">chevron_left</mat-icon> -->
+          </button>
+          <button
+            type="button"
+            matStepperNext
+            mat-raised-button
+            color="primary"
+            [disabled]="
+              form.controls.user_info.controls.username.invalid ||
+              form.controls.user_info.controls.email.invalid ||
+              form.controls.user_info.controls.password.invalid ||
+              form.controls.user_info.controls.phone_number.invalid
+            "
+            (click)="submit()"
+          >
+            Next
+            <!-- <mat-icon color="primary">next</mat-icon> -->
+          </button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </form>
+
+  <svg
+    id="wave"
+    class="first"
+    style="transform: rotate(0deg); transition: 0.3s"
+    viewBox="0 0 1440 300"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0">
+        <stop stop-color="rgba(225, 235, 245, 1)" offset="0%"></stop>
+        <stop stop-color="rgba(186, 197, 243, 1)" offset="100%"></stop>
+      </linearGradient>
+    </defs>
+    <path
+      style="transform: translate(0, 0px); opacity: 1"
+      fill="url(#sw-gradient-0)"
+      d="M0,210L80,200C160,190,320,170,480,175C640,180,800,210,960,205C1120,200,1280,160,1440,135C1600,110,1760,100,1920,100C2080,100,2240,110,2400,100C2560,90,2720,60,2880,80C3040,100,3200,170,3360,185C3520,200,3680,160,3840,135C4000,110,4160,100,4320,110C4480,120,4640,150,4800,155C4960,160,5120,140,5280,155C5440,170,5600,220,5760,240C5920,260,6080,250,6240,205C6400,160,6560,80,6720,85C6880,90,7040,180,7200,195C7360,210,7520,150,7680,145C7840,140,8000,190,8160,190C8320,190,8480,140,8640,135C8800,130,8960,170,9120,185C9280,200,9440,190,9600,160C9760,130,9920,80,10080,85C10240,90,10400,150,10560,170C10720,190,10880,170,11040,170C11200,170,11360,190,11440,200L11520,210L11520,300L11440,300C11360,300,11200,300,11040,300C10880,300,10720,300,10560,300C10400,300,10240,300,10080,300C9920,300,9760,300,9600,300C9440,300,9280,300,9120,300C8960,300,8800,300,8640,300C8480,300,8320,300,8160,300C8000,300,7840,300,7680,300C7520,300,7360,300,7200,300C7040,300,6880,300,6720,300C6560,300,6400,300,6240,300C6080,300,5920,300,5760,300C5600,300,5440,300,5280,300C5120,300,4960,300,4800,300C4640,300,4480,300,4320,300C4160,300,4000,300,3840,300C3680,300,3520,300,3360,300C3200,300,3040,300,2880,300C2720,300,2560,300,2400,300C2240,300,2080,300,1920,300C1760,300,1600,300,1440,300C1280,300,1120,300,960,300C800,300,640,300,480,300C320,300,160,300,80,300L0,300Z"
+    ></path>
+  </svg>
+</div>
