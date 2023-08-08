@@ -44,7 +44,6 @@ export class UserService {
     }
     else {
       const user = this.getUsers().find(x => x.username === inp_text);
-      console.log(user, inp_text)
       if (user) {
         return user;
       }

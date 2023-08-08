@@ -1,90 +1,94 @@
-@use '/src/assets/styles/mixin' as *;
-@use '/src/assets/styles/color' as *;
-@use '/src/assets/styles/animations' as *;
+@use "/src/assets/styles/mixin" as *;
+@use "/src/assets/styles/color" as *;
+@use "/src/assets/styles/animations" as *;
 
-.container{
-    @include flx(column,center,center);
-    width: 80%;
-    margin-inline: auto;
-    max-width: 400px;
-    animation: fadeIn 2s ease-in forwards;
-    
-    .btn-div{
-        @include bck-ground($light-white);
-        gap: 2vh;
-        width: 100%;
-        padding: 5%;
-        .title{
-            color: $dark-blue;
-            width: 100% !important;
-            border-bottom: 2px solid $dark-blue;
-            padding-bottom: 10px;
-            box-shadow: 0px 5px 5px 0px $dark-blue;
-            text-align: center;
-            @include flx(row,center,center);
-            font-weight: bold;           
-        }
-        .content{
-            @include flx(column,center,stretch);
-        }
-        button{
-            @include flx(row,center,center);
-            align-self: center;
-            height: auto;
-            padding: 10px 20px;
-            .btn-para{
-                @include flx(column,center,center);
-                gap: 1em;
-            }
-            
-        }
+.container {
+  @include flx(column, center, center);
+  width: 80%;
+  margin-inline: auto;
+  max-width: 400px;
+  animation: fadeIn 2s ease-in forwards;
+
+  .btn-div {
+    @include bck-ground($light-white);
+    gap: 2vh;
+    width: 100%;
+    padding: 5%;
+    .title {
+      color: $dark-blue;
+      width: 100% !important;
+      border-bottom: 2px solid $dark-blue;
+      padding-bottom: 10px;
+      box-shadow: 0px 5px 5px 0px $dark-blue;
+      text-align: center;
+      @include flx(row, center, center);
+      font-weight: bold;
     }
-    .action-div{
-        @include flx(row,space-evenly,center);
-        gap: 8px;
-        button{
-            width: 100%;
-        }
+    .content {
+      @include flx(column, center, stretch);
     }
-    form{
-        @include flx(column,center,center);
-        @include bck-ground($light-white);
-        width: 100%;
-        padding: 5%;
-        margin: auto;
-        .field{
-            width: 100%;
-            max-width: 320px;
-            input{
-                color: $dark-blue;
-            }
-        }
+    button {
+      @include flx(row, center, center);
+      align-self: center;
+      height: auto;
+      padding: 10px 20px;
+      .btn-para {
+        @include flx(column, center, center);
+        gap: 1em;
+      }
     }
-    .like-btn{
-        cursor: pointer;
+  }
+  .action-div {
+    @include flx(row, space-evenly, center);
+    gap: 8px;
+    button {
+      width: 100%;
     }
-    .div-img{
-        @include bck-ground($light-white);
-        width: 100%;
-        padding-inline: 20%;
-        position: "relative";
+  }
+  form {
+    @include flx(column, center, center);
+    @include bck-ground($light-white);
+    width: 90%;
+    padding: 5%;
+    margin: -15px auto;
+    box-shadow: inset 0px 0px 47px 5px #ccd6f4;
+    .mat-stepper-horizontal {
+      width: 100%;
     }
-    img{
-        position: relative !important;
-        width: 100%
+    .field {
+      width: 100%;
+      max-width: 320px;
+      input {
+        color: $dark-blue;
+      }
     }
-    .footer{
-        @include flx(row,space-evenly,center);
-        @include bck-ground($light-white);
-        width: 100%;
-        padding-inline: 5%;
-        padding-bottom: 2em;
-        p,button{
-            color: $dark-blue;
-        }
+  }
+  .like-btn {
+    cursor: pointer;
+  }
+  .div-img {
+    @include bck-ground($light-white);
+    width: 100%;
+    padding-inline: 20%;
+    position: "relative";
+  }
+  img {
+    position: relative !important;
+    width: 100%;
+  }
+  .footer {
+    @include flx(row, space-evenly, center);
+    @include bck-ground($light-white);
+    width: 100%;
+    padding-inline: 5%;
+    padding-bottom: 2em;
+    p,
+    button {
+      color: $dark-blue;
     }
-    #wave{
-        rotate: 180deg;
-    }
+  }
+  #wave {
+    rotate: 180deg;
+    width: 100%;
+  }
 }
-
