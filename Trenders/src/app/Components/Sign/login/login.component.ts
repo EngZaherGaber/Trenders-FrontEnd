@@ -4,7 +4,8 @@ import { MaterialModule } from '../../Material/Material.module';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators, AbstractControl } from '@angular/forms';
 import { UserService } from 'src/app/Services/user.service';
 import { RouteReuseStrategy, Router } from '@angular/router';
-import { User } from 'src/app/Interfaces/user';
+// import { User } from 'src/app/Interfaces/user';
+import { User } from '../../../Interfaces/user';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -69,7 +70,7 @@ export class LoginComponent {
     if (this.form.controls.password.hasError('required')) {
       return 'You must enter a value';
     }
-    else if (this.form.controls.password.value.length < 8) {
+    else if (this.form.value.password && this.form.value.password.length < 8) {
       return 'you must enter at least 8 character'
     }
     else if (this.form.controls.password.hasError('invalidPassword')) {
@@ -82,12 +83,12 @@ export class LoginComponent {
   }
 
   submit() {
-    if(!this.form.invalid){
+    if (!this.form.invalid) {
       this.userSrv.loggingUser = this.user;
       this.router.navigate(['/home']);
     }
   }
-  goToRegister(){
+  goToRegister() {
     this.router.navigate(['/register']);
   }
 }

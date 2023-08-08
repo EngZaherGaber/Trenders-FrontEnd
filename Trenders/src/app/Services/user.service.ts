@@ -11,7 +11,7 @@ import { Deleivery } from '../Interfaces/deleivery';
   providedIn: 'root'
 })
 export class UserService {
-  loggingUser: User = undefined;
+  loggingUser: User ;
   userList: User[] = [
     {
       id: 0,
@@ -103,12 +103,4 @@ export class UserService {
   logOut() {
     this.loggingUser = undefined;
   }
-
-
-  //helper
-
-
-
-
-  //
 }
