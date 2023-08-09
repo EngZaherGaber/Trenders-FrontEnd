@@ -26,67 +26,20 @@ import { CustomerService } from 'src/app/Services/customer.service';
 import { BankService } from 'src/app/Services/bank.service';
 import { DeleiveryService } from 'src/app/Services/deleivery.service';
 //
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'YYYY',
-  },
-  display: {
-    dateInput: 'YYYY',
-    monthYearLabel: 'YYYY',
-    monthYearA11yLabel: 'YYYY',
-    yearLabel: 'YYYY'
-  },
-};
-export const MY_FORMATS2 = {
-  parse: {
-    dateInput: 'YYYY-MM-DD',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    monthYearA11yLabel: 'MMMM YYYY',
-    yearLabel: 'YYYY'
-  },
-};
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [HttpClientModule, CommonModule, MaterialModule, ReactiveFormsModule, FormsModule, NgxMaskDirective],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-  providers: [HttpClient, provideNgxMask(),
-    {
-      provide: DateAdapter, useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-    {
-      provide: MAT_DATE_FORMATS, useValue: MY_FORMATS
-    },
-    {
-      provide: MAT_DATE_FORMATS, useValue: MY_FORMATS2
-    },]
+  providers: [HttpClient]
 })
 export class RegisterComponent {
-
-  //viewChild
-  @ViewChild('categoryInput') categoryInput: ElementRef<HTMLInputElement>;
-  @ViewChild('yearpicker', { static: false }) private picker!: MatDatepicker<Date>;
-  //
-
   // variables
-  countries = this.countrySrv.countries;
-  // countries$ = this.countrySrv.countries$;
-  currencies = this.countrySrv.currencies;
-  catgeories = this.categoriesSrv.categories;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  filteredCatgeories: Observable<string[]>;
-  prefix: string = '+963';
+  Lcatgeories = this.categoriesSrv.categories;
   cities = [];
-  categoryCtrl = this.fb.control('');
   stepperOrientation: Observable<StepperOrientation>;
-  selectYear;
   //
-
 
   // form
   form = this.fb.group({
@@ -96,33 +49,13 @@ export class RegisterComponent {
       email: ['', [Validators.required, Validators.email, this.emailValidator()]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirm: ['', Validators.required, this.confirmValidator()],
-      phone_number: [this.prefix, Validators.required, this.phoneValidator()],
     }),
     other_info: this.fb.group({
-      country: this.fb.control('', Validators.required),
-      city: this.fb.control('', Validators.required),
-      currency: this.fb.control('', Validators.required)
+      categories: ['', Validators.required],
+      createdDate: ['', Validators.required],
+      address: ['', Validators.required],
     })
-  });
-  companyForm = this.fb.group({
-    name: this.fb.control('', [Validators.required,]),
-    description: this.fb.control('', Validators.required),
-    categories: this.fb.array([]),
-    release_date: this.fb.control('', Validators.required),
-  });
-  customerForm = this.fb.group({
-    firstName: this.fb.control('', Validators.required),
-    lastName: this.fb.control('', Validators.required),
-    birth_date: this.fb.control('', Validators.required),
-  });
-  bankForm = this.fb.group({
-    name: this.fb.control('', Validators.required),
-    description: this.fb.control('', Validators.required),
-  });
-  delevieryForm = this.fb.group({
-    name: this.fb.control('', Validators.required),
-    description: this.fb.control('', Validators.required),
-    categories: this.fb.array([]),
+
   });
   //
 
@@ -140,10 +73,6 @@ export class RegisterComponent {
     private countrySrv: CountriesService) {
     this.stepperOrientation = breakpointObserver.observe('(min-width: 800px)')
       .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
-    this.filteredCatgeories = this.categoryCtrl.valueChanges.pipe(
-      startWith(null),
-      map((cat: string | null) => (cat ? this._filter(cat) : this.catgeories.slice())),
-    );
   }
   //
 
@@ -161,7 +90,7 @@ export class RegisterComponent {
   }
   nameValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const name  : string = control.value;
+      const name: string = control.value;
       let isValid: boolean;
       if (name.indexOf('')) {
         isValid = false;
@@ -186,21 +115,6 @@ export class RegisterComponent {
       const confirm = control.value;
       let isValid: boolean = password === confirm;
       return isValid ? of(null) : of({ 'confirm': true })
-    };
-  }
-  phoneValidator(): ValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      const a: string = '';
-      let isValid: boolean = false;
-      if (control.value.indexOf('+') < 0) {
-        const confirm = control.value.slice(this.prefix.length - 1);
-        isValid = confirm.length > 0;
-      }
-      else {
-        const confirm = control.value.slice(this.prefix.length);
-        isValid = confirm.length > 0;
-      }
-      return isValid ? of(null) : of({ 'length': true })
     };
   }
   //
@@ -253,86 +167,19 @@ export class RegisterComponent {
       return ''
     }
   }
-  //
-
-  // prefix
-  getprefix() {
-    const lngth = this.prefix.slice(1).length;
-    const name = this.countries.find(x => (x.idd.root + (x.idd.suffixes?.[0] || '')) === this.prefix)?.name.common || '';
-    const tLength = this.countrySrv.countryPhoneLengths.find(x => x.name == name)
-    let mask: string = '';
-    switch (lngth) {
-      case 1:
-        mask = '+0';
-        break;
-      case 2:
-        mask = '+00';
-        break;
-      case 3:
-        mask = '+000';
-        break;
-      default:
-        mask = '+0000';
-        break;
+  getAddressErrorMessage() {
+    if (this.form.controls.other_info.controls.address.hasError('required')) {
+      return 'You must enter a value';
     }
-    for (let i = 0; i < tLength?.phoneLength || 0; i++) {
-      if (i % 3 === 0) {
-        mask += ' '
-      }
-      mask += '0'
+    else {
+      return ''
     }
-    return mask;
-  }
-  addPrefix() {
-    this.form.controls.user_info.controls.phone_number.patchValue(this.prefix);
-  }
-  preventRemovePrefix() {
-    const str: string = this.prefix + this.form.controls.user_info.value.phone_number.slice(this.prefix.length - 1);
-    this.form.controls.user_info.controls.phone_number.patchValue(str);
-  }
-  //
-
-  // categories
-  addCategory(event: MatChipInputEvent) {
-    const value = (event.value || '').trim();
-    if (value) {
-      const arr = this.companyForm.value.categories;
-      arr.push(value);
-    }
-  }
-  removeCategory(category: any) {
-    const arr = this.companyForm.value.categories;
-    const index: number = arr.indexOf(category);
-    if (index >= 0) {
-      arr.splice(index, 1);
-    }
-
-  }
-  selectedCategory(event: MatAutocompleteSelectedEvent): void {
-    const arr = this.companyForm.value.categories;
-    if (arr.indexOf(event.option.value) === -1) {
-      arr.push(event.option.viewValue);
-    }
-    this.categoryInput.nativeElement.value = '';
-    this.categoryCtrl.setValue(null);
-  }
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.catgeories.filter(item => item.toLowerCase().includes(filterValue));
-  }
-  //
-
-  //date picker
-  onYearSelected(momentInstance: moment.Moment, datepicker: MatDatepicker<Date>) {
-    const normializedYear = typeof (momentInstance)
-    this.companyForm.controls.release_date.setValue(momentInstance.year().toString());
-    datepicker.close();
   }
   //
 
   //state
   getState(event: any) {
-    this.cities = this.countrySrv.cities.find(x => x.country === event.value)?.cities || [];
+    this.cities = this.countrySrv.cities.find(x => x.country === 'Syria')?.cities || [];
   }
   //
 
@@ -340,41 +187,17 @@ export class RegisterComponent {
     this.userSrv.addUser(this.form.controls.user_info.value.username,
       this.form.controls.user_info.value.password,
       this.form.controls.user_info.value.email,
-      this.form.controls.user_info.value.role,
-      this.form.controls.other_info.value.city,
-      this.form.controls.other_info.value.country,
-      this.form.controls.other_info.value.currency,
-      this.form.controls.user_info.value.phone_number);
+      this.form.controls.other_info.value.categories
+    );
     const user: User = this.userSrv.getUser(this.form.controls.user_info.value.username);
-    console.log(user);
     //////////////////////////////
     if (user) {
       switch (this.form.controls.user_info.value.role) {
         case 'company':
-          const catC: string[] = this.companyForm.value.categories as string[];
-          this.comSrv.addCompany(this.companyForm.value.name,
-            this.companyForm.value.description,
-            catC,
-            this.companyForm.value.release_date,
-            user.id)
-          console.log(this.comSrv.companyList);
+
           break;
-        case 'customer':
-          const dat = new Date(this.customerForm.value.birth_date)
-          this.cusSrv.addCustomer(this.customerForm.value.firstName,
-            this.customerForm.value.lastName,
-            dat,
-            user.id)
-          console.log(this.cusSrv.customerList)
-          break;
-        case 'bank':
-          this.bnkSrv.addBank(this.bankForm.value.name, this.bankForm.value.description, user.id);
-          console.log(this.bnkSrv.bankList);
-          break;
-        case 'deleivery':
-          const catD: string[] = this.delevieryForm.value.categories as string[];
-          this.delSrv.addDeleivery(this.delevieryForm.value.name, this.delevieryForm.value.description, catD, user.id)
-          console.log(this.delSrv.deleiveryList)
+        case 'institute':
+
           break;
       }
       this.userSrv.loggingUser = user;

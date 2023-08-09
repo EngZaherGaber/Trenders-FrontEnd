@@ -2,6 +2,10 @@
 @use "/src/assets/styles/color" as *;
 @use "/src/assets/styles/animations" as *;
 
+.mat-mdc-radio-button .mdc-form-field,.mdc-form-field>label {
+  width: 100%;
+}
+
 .container {
   @include flx(column, center, center);
   width: 80%;
@@ -14,6 +18,7 @@
     gap: 2vh;
     width: 100%;
     padding: 5%;
+
     .title {
       color: $dark-blue;
       width: 100% !important;
@@ -24,27 +29,34 @@
       @include flx(row, center, center);
       font-weight: bold;
     }
+
     .content {
       @include flx(column, center, stretch);
     }
+
     button {
       @include flx(row, center, center);
       align-self: center;
       height: auto;
       padding: 10px 20px;
+      width: 100%;
+
       .btn-para {
         @include flx(column, center, center);
         gap: 1em;
       }
     }
   }
+
   .action-div {
     @include flx(row, space-evenly, center);
     gap: 8px;
+
     button {
       width: 100%;
     }
   }
+
   form {
     @include flx(column, center, center);
     @include bck-ground($light-white);
@@ -52,41 +64,57 @@
     padding: 5%;
     margin: -15px auto;
     box-shadow: inset 0px 0px 47px 5px #ccd6f4;
+
+    .mat-stepper-vertical,
     .mat-stepper-horizontal {
       width: 100%;
     }
+
+    .rd-btn {
+      margin-block: 10px;
+      display: block;
+      width: 100%;
+    }
+
     .field {
       width: 100%;
       max-width: 320px;
+
       input {
         color: $dark-blue;
       }
     }
   }
+
   .like-btn {
     cursor: pointer;
   }
+
   .div-img {
     @include bck-ground($light-white);
     width: 100%;
     padding-inline: 20%;
     position: "relative";
   }
+
   img {
     position: relative !important;
     width: 100%;
   }
+
   .footer {
     @include flx(row, space-evenly, center);
     @include bck-ground($light-white);
     width: 100%;
     padding-inline: 5%;
     padding-bottom: 2em;
+
     p,
     button {
       color: $dark-blue;
     }
   }
+
   #wave {
     rotate: 180deg;
     width: 100%;

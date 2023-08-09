@@ -11,18 +11,13 @@ import { Deleivery } from '../Interfaces/deleivery';
   providedIn: 'root'
 })
 export class UserService {
-  loggingUser: User ;
+  loggingUser: User;
   userList: User[] = [
     {
       id: 0,
       username: 'zaher.japr',
       email: 'zaher@gmail.com',
       password: '123456789',
-      role: 'admin',
-      city: 'damascus',
-      country: 'syria',
-      currency: 'SYR',
-      phoneNumber: '+963993258672'
     }
   ];
   deleiveryList: Deleivery[] = [];
@@ -68,7 +63,7 @@ export class UserService {
       return false;
     }
   }
-  addUser(username: string, password: string, email: string, role: string, city: string, country: string, currency: string, phonenumber: string) {
+  addUser(username: string, password: string, email: string, categories: string) {
     let id: number;
     if (this.userList) {
       id = this.userList.length
@@ -80,11 +75,6 @@ export class UserService {
       username: username,
       email: email,
       password: password,
-      role: role,
-      city: city,
-      country: country,
-      currency: currency,
-      phoneNumber: phonenumber
     };
     this.userList.push(user);
   }
