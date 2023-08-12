@@ -22,31 +22,65 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CountryData } from '../../../Interfaces/country-data';
 import { User } from 'src/app/Interfaces/user';
 import { CompanyService } from 'src/app/Services/company.service';
-import { CustomerService } from 'src/app/Services/customer.service';
-import { BankService } from 'src/app/Services/bank.service';
-import { DeleiveryService } from 'src/app/Services/deleivery.service';
+import { Category } from 'src/app/Interfaces/category';
 //
+
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY',
+  },
+  display: {
+    dateInput: 'YYYY',
+    monthYearLabel: 'YYYY',
+    monthYearA11yLabel: 'YYYY',
+    yearLabel: 'YYYY'
+  },
+};
+export const MY_FORMATS2 = {
+  parse: {
+    dateInput: 'YYYY-MM-DD',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    monthYearA11yLabel: 'MMMM YYYY',
+    yearLabel: 'YYYY'
+  },
+};
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [HttpClientModule, CommonModule, MaterialModule, ReactiveFormsModule, FormsModule, NgxMaskDirective],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-  providers: [HttpClient]
+  providers: [HttpClient, provideNgxMask(),
+    {
+      provide: DateAdapter, useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    {
+      provide: MAT_DATE_FORMATS, useValue: MY_FORMATS
+    },
+    {
+      provide: MAT_DATE_FORMATS, useValue: MY_FORMATS2
+    },]
 })
 export class RegisterComponent {
   // variables
-  Lcatgeories = this.categoriesSrv.categories;
-  cities = [];
+  Lcategories$: Observable<Category[]>;
+  Lcities$: Observable<string[]>;
   stepperOrientation: Observable<StepperOrientation>;
+  hide: boolean = false;
+  hideConfirm: boolean = false;
   //
 
   // form
   form = this.fb.group({
     user_info: this.fb.group({
-      role: ['', Validators.required],
-      username: ['', [Validators.required, this.usernameValidator()]],
-      email: ['', [Validators.required, Validators.email, this.emailValidator()]],
+      type: ['', Validators.required],
+      username: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirm: ['', Validators.required, this.confirmValidator()],
     }),
@@ -64,9 +98,6 @@ export class RegisterComponent {
     private fb: FormBuilder,
     private userSrv: UserService,
     private comSrv: CompanyService,
-    private cusSrv: CustomerService,
-    private bnkSrv: BankService,
-    private delSrv: DeleiveryService,
     private router: Router,
     private http: HttpClient,
     private categoriesSrv: CategoriesService,
@@ -74,41 +105,13 @@ export class RegisterComponent {
     this.stepperOrientation = breakpointObserver.observe('(min-width: 800px)')
       .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
   }
-  //
+  // Hooks
+  ngOnInit() {
+    this.Lcategories$ = this.categoriesSrv.getAllCategories();
+    this.Lcities$ = this.countrySrv.getAllCities('Syria');
+  }
 
   // Validator
-  emailValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const email = control.value;
-      const user = this.userSrv.getUser(email);
-      let isValid: boolean = true;
-      if (user) {
-        isValid = false;
-      }
-      return isValid ? null : { 'Found': true };
-    };
-  }
-  nameValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const name: string = control.value;
-      let isValid: boolean;
-      if (name.indexOf('')) {
-        isValid = false;
-      }
-      return isValid ? null : { 'input': true };
-    };
-  }
-  usernameValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const username = control.value;
-      const user = this.userSrv.getUser(username);
-      let isValid: boolean = true;
-      if (user) {
-        isValid = false;
-      }
-      return isValid ? null : { 'Found': true };
-    };
-  }
   confirmValidator(): ValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const password = this.form.controls.user_info.value.password;
@@ -126,9 +129,6 @@ export class RegisterComponent {
     }
     else if (this.form.controls.user_info.controls.email.hasError('email')) {
       return 'Your Email Not Correct';
-    }
-    else if (this.form.controls.user_info.controls.email.hasError('Found')) {
-      return 'Your Email is Exist';
     }
     else {
       return ''
@@ -160,15 +160,13 @@ export class RegisterComponent {
     if (this.form.controls.user_info.controls.username.hasError('required')) {
       return 'You must enter a value';
     }
-    else if (this.form.controls.user_info.controls.username.hasError('Found')) {
-      return 'Your Username is Exist';
-    }
     else {
       return ''
     }
   }
   getAddressErrorMessage() {
     if (this.form.controls.other_info.controls.address.hasError('required')) {
+      console.log('You must enter a value')
       return 'You must enter a value';
     }
     else {
@@ -178,31 +176,38 @@ export class RegisterComponent {
   //
 
   //state
-  getState(event: any) {
-    this.cities = this.countrySrv.cities.find(x => x.country === 'Syria')?.cities || [];
+  changeState(event) {
+    this.form.controls.other_info.value.address = event.value;
+  }
+  AddressToushed() {
+    this.form.controls.other_info.controls.address.markAllAsTouched();
+    console.log(this.form.controls.other_info.controls.address.touched, this.form.controls.other_info.controls.address.invalid)
+  }
+  changeAddress(event) {
+    if (this.form.controls.other_info.value.address !== '') {
+      this.form.controls.other_info.value.address += ',' + event.srcElement.value;
+    }
+  }
+  //
+
+  //date picker
+  onYearSelected(momentInstance: moment.Moment, datepicker: MatDatepicker<Date>) {
+    this.form.controls.other_info.controls.createdDate.setValue(momentInstance.year().toString());
+    datepicker.close();
   }
   //
 
   submit() {
     this.userSrv.addUser(this.form.controls.user_info.value.username,
       this.form.controls.user_info.value.password,
+      this.form.controls.user_info.value.type,
       this.form.controls.user_info.value.email,
-      this.form.controls.other_info.value.categories
+      this.form.controls.other_info.value.categories,
+      this.form.controls.other_info.value.address,
+      new Date(this.form.controls.other_info.value.createdDate),
     );
-    const user: User = this.userSrv.getUser(this.form.controls.user_info.value.username);
     //////////////////////////////
-    if (user) {
-      switch (this.form.controls.user_info.value.role) {
-        case 'company':
 
-          break;
-        case 'institute':
-
-          break;
-      }
-      this.userSrv.loggingUser = user;
-      this.router.navigate(['home'])
-    }
     /////////////////////////////
   }
 }

@@ -22,22 +22,23 @@
 
   <form [formGroup]="form">
     <mat-stepper
+      color="primary"
       [orientation]="(stepperOrientation | async)!"
       animationDuration="2000"
       class="stepper"
       linear="true"
     >
       <mat-step
-        [stepControl]="form.controls.user_info.controls.role"
+        [stepControl]="form.controls.user_info.controls.type"
         formGroupName="user_info"
       >
         <mat-card class="btn-div">
-          <mat-card-header class="title"> Choose Your Role </mat-card-header>
+          <mat-card-header class="title"> Choose Your Type </mat-card-header>
           <mat-radio-group
             required
             disableRipple="false"
-            formControlName="role"
-            aria-label="Select Your Role"
+            formControlName="type"
+            aria-label="Select Your type"
           >
             <mat-radio-button
               style="width: 100%"
@@ -47,7 +48,7 @@
               <button
                 type="button"
                 [color]="
-                  form.controls.user_info.value.role === 'company'
+                  form.controls.user_info.value.type === 'company'
                     ? 'accent'
                     : 'primary'
                 "
@@ -55,12 +56,12 @@
                 extended
                 style="width: 100%"
                 (click)="
-                  form.controls.user_info.controls.role.patchValue('company')
+                  form.controls.user_info.controls.type.patchValue('company')
                 "
               >
                 <mat-icon
                   [color]="
-                    form.controls.user_info.value.role !== 'company'
+                    form.controls.user_info.value.type !== 'company'
                       ? 'accent'
                       : 'primary'
                   "
@@ -69,25 +70,30 @@
                 <div class="btn-para">Company</div>
               </button>
             </mat-radio-button>
-            <mat-radio-button value="institute" class="rd-btn">
+            <mat-radio-button
+              value="institute"
+              class="rd-btn"
+              style="width: 100%"
+            >
               <button
                 type="button"
+                style="width: 100%"
                 [color]="
-                  form.controls.user_info.value.role === 'institute'
+                  form.controls.user_info.value.type === 'institute'
                     ? 'accent'
                     : 'primary'
                 "
                 mat-fab
                 extended
                 (click)="
-                  this.form.controls.user_info.controls.role.patchValue(
+                  this.form.controls.user_info.controls.type.patchValue(
                     'institute'
                   )
                 "
               >
                 <mat-icon
                   [color]="
-                    form.controls.user_info.value.role !== 'institute'
+                    form.controls.user_info.value.type !== 'institute'
                       ? 'accent'
                       : 'primary'
                   "
@@ -102,7 +108,7 @@
               type="button"
               matStepperNext
               mat-raised-button
-              [disabled]="form.controls.user_info.value.role === ''"
+              [disabled]="form.controls.user_info.value.type === ''"
               color="primary"
             >
               Next
@@ -145,7 +151,24 @@
 
           <mat-form-field>
             <mat-label>password</mat-label>
-            <input matInput type="password" formControlName="password" />
+            <input
+              matInput
+              type="password"
+              formControlName="password"
+              [type]="!hide ? 'password' : 'text'"
+            />
+            <div
+              class="like-btn"
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon color="primary">{{
+                !hide ? "visibility_off" : "visibility"
+              }}</mat-icon>
+            </div>
             <mat-error
               *ngIf="
                 form.controls.user_info.controls.password.invalid &&
@@ -164,7 +187,20 @@
               #confirmP
               name="confirm"
               required
+              [type]="!hideConfirm ? 'password' : 'text'"
             />
+            <div
+              class="like-btn"
+              mat-icon-button
+              matSuffix
+              (click)="hideConfirm = !hideConfirm"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon color="primary">{{
+                !hideConfirm ? "visibility_off" : "visibility"
+              }}</mat-icon>
+            </div>
             <mat-error
               *ngIf="form.controls.user_info.controls.confirm.invalid"
               >{{ getConfirmErrorMessage() }}</mat-error
@@ -179,7 +215,6 @@
               color="accent"
             >
               Preivous
-              <!-- <mat-icon color="primary">chevron_left</mat-icon> -->
             </button>
             <button
               type="button"
@@ -209,9 +244,9 @@
             <mat-label>Categories</mat-label>
             <mat-select formControlName="categories" multiple>
               <mat-option
-                *ngFor="let catgeory of Lcatgeories"
-                [value]="catgeory"
-                >{{ catgeory }}</mat-option
+                *ngFor="let catgeory of Lcategories$ | async"
+                [value]="catgeory.id"
+                >{{ catgeory.name }}</mat-option
               >
             </mat-select>
           </mat-form-field>
@@ -220,22 +255,52 @@
             <input
               matInput
               [matDatepicker]="picker"
+              placeholder="YYYY"
               formControlName="createdDate"
+              #inpyeardate
+              hidden
             />
-            <mat-hint>MM/DD/YYYY</mat-hint>
+            <input matInput [value]="inpyeardate.value.slice(6)" />
+            <mat-hint>YYYY</mat-hint>
             <mat-datepicker-toggle
               matIconSuffix
               [for]="picker"
             ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-datepicker
+              #picker
+              (yearSelected)="onYearSelected($event, picker)"
+              startView="multi-year"
+              yearSelect="true"
+              [panelClass]="'year-picker'"
+            ></mat-datepicker>
           </mat-form-field>
           <mat-form-field>
-            <mat-label>Address</mat-label>
-            <input formControlName="address" matInput name="address" required />
+            <mat-label>City</mat-label>
+            <mat-select formControlName="address">
+              <mat-option
+                *ngFor="let item of Lcities$ | async"
+                [value]="item"
+                >{{ item }}</mat-option
+              >
+            </mat-select>
             <mat-error
-              *ngIf="form.controls.other_info.controls.address.invalid"
+              *ngIf="
+                form.controls.other_info.controls.address.invalid &&
+                form.controls.other_info.controls.address.touched
+              "
               >{{ getAddressErrorMessage() }}</mat-error
             >
+          </mat-form-field>
+          <mat-form-field
+            *ngIf="this.form.controls.other_info.value.address !== ''"
+          >
+            <mat-label>Address</mat-label>
+            <input
+              (change)="changeAddress($event)"
+              matInput
+              name="address"
+              required
+            />
           </mat-form-field>
           <div class="action-div">
             <button type="button" matStepperPrevious mat-raised-button>
@@ -249,6 +314,10 @@
               [disabled]="
                 form.controls.user_info.controls.username.invalid ||
                 form.controls.user_info.controls.email.invalid ||
+                form.controls.other_info.controls.categories.invalid ||
+                form.controls.other_info.controls.createdDate.invalid ||
+                form.controls.other_info.controls.address.invalid ||
+                form.controls.user_info.controls.type.invalid ||
                 form.controls.user_info.controls.password.invalid
               "
               (click)="submit()"

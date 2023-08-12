@@ -1,118 +1,30 @@
 import { Injectable } from '@angular/core';
+import { GeneralService } from './general.service';
+import { HttpClient } from '@angular/common/http';
+import { Category } from '../Interfaces/category';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriesService {
-  categories = [
-    "Electronics",
-    "Home & Kitchen",
-    "Health & Beauty",
-    "Fashion",
-    "Sports & Outdoors",
-    "Toys & Games",
-    "Books",
-    "Pet Supplies",
-    "Office Supplies",
-    "Jewelry",
-    "Automotive",
-    "Grocery",
-    "Movies & TV Shows",
-    "Music",
-    "Industrial & Scientific",
-    "Arts & Crafts",
-    "Baby",
-    "Tools & Home Improvement",
-    "Luggage & Travel Gear",
-    "Video Games",
-    "Handmade",
-    "Collectibles & Fine Art",
-    "Digital Products",
-    "Gift Cards",
-    "Appliances",
-    "Audio & Video",
-    "Bags & Backpacks",
-    "Bath & Body",
-    "Bedding & Linens",
-    "Beverages",
-    "Camping & Hiking",
-    "Cameras & Photography",
-    "Car Parts & Accessories",
-    "Cleaning Supplies",
-    "Collectibles",
-    "Computer Components",
-    "Cookware & Bakeware",
-    "Costumes & Accessories",
-    "Craft Supplies",
-    "Dental Care",
-    "Desk Accessories",
-    "Diet & Nutrition",
-    "Dinnerware & Serveware",
-    "DVDs & Blu-ray",
-    "Education & Teaching",
-    "Event & Party Supplies",
-    "Eyewear",
-    "Furniture",
-    "Gardening & Lawn Care",
-    "Hair Care",
-    "Handbags & Wallets",
-    "Hardware",
-    "Headphones & Earbuds",
-    "Home Decor",
-    "Home Improvement",
-    "Home Storage & Organization",
-    "Instruments",
-    "Jackets & Coats",
-    "Kids' Clothing",
-    "Kitchen & Dining",
-    "Laundry Supplies",
-    "Lighting & Ceiling Fans",
-    "Makeup & Beauty Tools",
-    "Medical Supplies & Equipment",
-    "Men's Clothing",
-    "Musical Instruments",
-    "Networking & Wireless",
-    "Novelty & Gag Toys",
-    "Outdoor Decor",
-    "Outdoor Power Tools",
-    "Painting, Drawing & Art Supplies",
-    "Patio Furniture & Accessories",
-    "Personal Care",
-    "Personal Protective Equipment",
-    "Pest Control",
-    "Plant-Based Foods",
-    "Plumbing",
-    "Portable Audio & Speakers",
-    "Printers & Ink",
-    "Safety & Security",
-    "School & Office Supplies",
-    "Shaving & Hair Removal",
-    "Shoes",
-    "Skin Care",
-    "Smart Home",
-    "Smartphones & Accessories",
-    "Snacks",
-    "Software",
-    "Storage & Organization",
-    "Sunglasses",
-    "Tablets & Accessories",
-    "Tea & Coffee",
-    "Televisions",
-    "Tires & Wheels",
-    "Tools & Equipment",
-    "Toys & Collectibles",
-    "Travel Accessories",
-    "Underwear & Socks",
-    "Vacuums & Floor Care",
-    "Vegetables",
-    "Video Projectors",
-    "Watches",
-    "Water Bottles",
-    "Wine & Spirits",
-    "Women's Clothing",
-    "Workout Clothing",
-    "Yoga & Fitness",
-    "Zipper Bags"
-  ];
-  constructor() { }
+
+  constructor(private general: GeneralService, private http: HttpClient) { }
+
+  getAllCategories(): Observable<Category[]> {
+
+    const url = this.general.getUrl() + 'category';
+    return this.http.get(url).pipe(
+      map((res: any) => {
+        if (res['data']) {
+          return res['data'] as Category[]; // Convert the response data to Category interface
+        }
+        else {
+          return null;
+        }
+      })
+    );
+
+  }
 }
+

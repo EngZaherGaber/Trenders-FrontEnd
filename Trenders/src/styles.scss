@@ -1,3 +1,5 @@
+@use "./assets/styles/color" as *;
+@use "./assets/styles/font" as *;
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use "@angular/material" as mat;
@@ -47,6 +49,22 @@ body {
 .mdc-form-field {
   width: 100%;
 }
+// .mat-mdc-form-field-hint-wrapper,
+// .mat-mdc-form-field-error-wrapper {
+//   position: relative !important;
+// }
 .mdc-form-field > label {
   width: 100%;
+}
+.mat-horizontal-content-container,
+.mat-vertical-content,
+.mat-stepper-vertical,
+.mat-stepper-horizontal {
+  background-color: $light-white !important;
+}
+.mat-vertical-content {
+  padding: 0 !important;
+}
+.mat-vertical-content-container {
+  margin: 0 !important;
 }

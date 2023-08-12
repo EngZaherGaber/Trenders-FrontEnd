@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CountryData } from '../Interfaces/country-data';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -210,33 +210,42 @@ export class CountriesService {
     { name: 'Zimbabwe', phoneLength: 9 },
   ]
   constructor(private http: HttpClient) {
-    this.countries$ = this.http.get('https://restcountries.com/v3.1/all')
-      .pipe(map((countries: CountryData[]) => {
-        return countries
-          .sort((a, b) => {
-            return a.name.common.localeCompare(b.name.common)
-          })
+    // this.countries$ = this.http.get('https://restcountries.com/v3.1/all')
+    //   .pipe(map((countries: CountryData[]) => {
+    //     return countries
+    //       .sort((a, b) => {
+    //         return a.name.common.localeCompare(b.name.common)
+    //       })
+    //   }))
+    // this.countries$.subscribe(countries => {
+    //   countries.forEach(country => {
+    //     this.countries.push(country)
+    //     // console.log(country.currencies)
+    //   });
+    // })
+    // this.cities$ = 
+    // this.cities$.subscribe(countries => {
+    //   countries.data.forEach(x => this.cities.push(x));
+    // });
+    // this.currencies$ = http.get('https://openexchangerates.org/api/currencies.json')
+    //   .pipe(map((currency) => {
+    //     return currency
+    //   }))
+    // this.currencies$.subscribe(currencies => {
+    //   Object.keys(currencies).forEach(x => this.currencies.push(x))
+    // });
+  }
+  getAllCities(country: string): Observable<string[]> {
+    return this.http.get('https://countriesnow.space/api/v0.1/countries')
+      .pipe(map((res: any) => {
+        if (res['data']) {
+          const countryData = res['data'].find(x => x.country === country);
+          return countryData?.cities as string[] || [];
+        }
+        else {
+          return null;
+        }
       }))
-    this.countries$.subscribe(countries => {
-      countries.forEach(country => {
-        this.countries.push(country)
-        // console.log(country.currencies)
-      });
-    })
-    this.cities$ = this.http.get('https://countriesnow.space/api/v0.1/countries')
-      .pipe(map((cities: { country: string, cities: string[] }[]) => {
-        return cities
-      }))
-    this.cities$.subscribe(countries => {
-      countries.data.forEach(x => this.cities.push(x));
-    });
-    this.currencies$ = http.get('https://openexchangerates.org/api/currencies.json')
-      .pipe(map((currency) => {
-        return currency
-      }))
-    this.currencies$.subscribe(currencies => {
-      Object.keys(currencies).forEach(x => this.currencies.push(x))
-    });
   }
 }
 

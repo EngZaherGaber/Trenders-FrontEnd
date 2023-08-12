@@ -1,8 +1,9 @@
-@use "/src/assets/styles/mixin" as *;
-@use "/src/assets/styles/color" as *;
-@use "/src/assets/styles/animations" as *;
+@use "./mixin" as *;
+@use "./color" as *;
+@use "./animations" as *;
 
-.mat-mdc-radio-button .mdc-form-field,.mdc-form-field>label {
+.mat-mdc-radio-button .mdc-form-field,
+.mdc-form-field > label {
   width: 100%;
 }
 
@@ -17,7 +18,8 @@
     @include bck-ground($light-white);
     gap: 2vh;
     width: 100%;
-    padding: 5%;
+    padding-inline: 5%;
+    padding-block: 15%;
 
     .title {
       color: $dark-blue;
@@ -39,7 +41,7 @@
       align-self: center;
       height: auto;
       padding: 10px 20px;
-      width: 100%;
+      width: 50%;
 
       .btn-para {
         @include flx(column, center, center);
@@ -56,18 +58,18 @@
       width: 100%;
     }
   }
-
   form {
     @include flx(column, center, center);
-    @include bck-ground($light-white);
-    width: 90%;
-    padding: 5%;
-    margin: -15px auto;
-    box-shadow: inset 0px 0px 47px 5px #ccd6f4;
-
+    width: 100%;
+    gap: 2vh;
     .mat-stepper-vertical,
     .mat-stepper-horizontal {
       width: 100%;
+    }
+    @include for-phone-only {
+      .action-div {
+        flex-direction: column;
+      }
     }
 
     .rd-btn {
@@ -104,14 +106,14 @@
 
   .footer {
     @include flx(row, space-evenly, center);
-    @include bck-ground($light-white);
-    width: 100%;
+
+    width: 90%;
     padding-inline: 5%;
-    padding-bottom: 2em;
 
     p,
     button {
       color: $dark-blue;
+      text-align: center;
     }
   }
 

@@ -6,56 +6,26 @@ import { Company } from '../Interfaces/company';
 import { Customer } from '../Interfaces/customer';
 import { Bank } from '../Interfaces/bank';
 import { Deleivery } from '../Interfaces/deleivery';
+import { GeneralService } from './general.service';
+import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   loggingUser: User;
-  userList: User[] = [
-    {
-      id: 0,
-      username: 'zaher.japr',
-      email: 'zaher@gmail.com',
-      password: '123456789',
-    }
-  ];
+  url: string;
   deleiveryList: Deleivery[] = [];
-  constructor() {
+  constructor(private general: GeneralService, private route: Router, private http: HttpClient, private _snackBar: MatSnackBar) {
+    this.url = general.getUrl();
+  }
 
-  }
-  getUsers() {
-    return this.userList;
-  }
-  getUser(inp_text: string): User {
-    if (inp_text.includes('@')) {
-      const user = this.getUsers().find(x => x.email === inp_text);
-      if (user) {
-        return user;
-      }
-      else {
-        return undefined;
-      }
-    }
-    else {
-      const user = this.getUsers().find(x => x.username === inp_text);
-      if (user) {
-        return user;
-      }
-      else {
-        return undefined;
-      }
-    }
-  }
-  getUserById(id: number): User {
-    if (this.userList.length >= id) {
 
-      return this.userList[id];
-    }
-    else {
-      return undefined
-    }
-  }
+  // getUserById(id: number): User {
+
+  // }
   checkPassword(user: User, password: string): boolean {
     if (user.password === password) {
       return true;
@@ -63,31 +33,52 @@ export class UserService {
       return false;
     }
   }
-  addUser(username: string, password: string, email: string, categories: string) {
-    let id: number;
-    if (this.userList) {
-      id = this.userList.length
-    } else {
-      id = 0;
-    }
-    const user: User = {
-      id: id,
-      username: username,
+  addUser(username: string, password: string, type: string, email: string, categories: string, address: string, createdDate: Date) {
+    const url = this.url + 'register';
+    const body = {
+      name: username,
       email: email,
       password: password,
-    };
-    this.userList.push(user);
+      type: type,
+      category_ids: categories,
+      created_in: createdDate,
+      address: address,
+      password_confirmation: password
+    }
+    this.http.post(url, body).subscribe(res => {
+      if (res['token']) {
+        this.general.changeToken(res['token']);
+        this._snackBar.open('Correct Register');
+        this.route.navigate(['/home']);
+      }
+
+    },
+      err => {
+        this._snackBar.open(err['error']['message']);
+      }
+    )
   }
   deleteUser(id: number) {
-    this.userList.splice(id, 1);
+
   }
-  isLoggedIn() {
-    if (this.loggingUser) {
-      return true;
+  login(email: string, password: string) {
+    const url = this.url + 'login';
+    const body = {
+      email: email,
+      password: password
     }
-    else {
-      return false;
-    }
+    this.http.post(url, body).subscribe(res => {
+      if (res['token']) {
+        this.general.changeToken(res['token']);
+        this._snackBar.open('Correct Login');
+        this.route.navigate(['/home']);
+      }
+
+    },
+      err => {
+        this._snackBar.open(err['error']['message']);
+      }
+    )
   }
   logOut() {
     this.loggingUser = undefined;

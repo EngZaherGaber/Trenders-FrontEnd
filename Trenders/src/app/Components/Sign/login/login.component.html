@@ -27,60 +27,72 @@
       priority
     />
   </div> -->
-  <form [formGroup]="form" (ngSubmit)="submit()">
-    <mat-form-field class="field">
-      <mat-label>Email / UserName:</mat-label>
-      <input matInput type="text" formControlName="inp" required />
-      <mat-error *ngIf="form.controls.inp.invalid">
-        {{ getInpErrorMessage() }}
-      </mat-error>
-      <mat-hint align="end">
-        <mat-icon *ngIf="form.controls.inp.valid" color="primary">
-          check
-        </mat-icon>
-      </mat-hint>
-    </mat-form-field>
+  <!-- <div class="login-div"> -->
+  <mat-card class="btn-div" style="box-shadow: none">
+    <!-- <mat-card-header class="title"> Fill Your Information </mat-card-header> -->
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field class="field">
+        <mat-label>Email :</mat-label>
+        <input matInput type="text" formControlName="inp" required />
+        <mat-error *ngIf="form.controls.inp.invalid">
+          {{ getInpErrorMessage() }}
+        </mat-error>
+        <mat-hint align="end">
+          <mat-icon *ngIf="form.controls.inp.valid" color="primary">
+            check
+          </mat-icon>
+        </mat-hint>
+      </mat-form-field>
 
-    <mat-form-field class="field">
-      <mat-label>Enter your password</mat-label>
-      <input
-        formControlName="password"
-        matInput
-        minlength="8"
-        [type]="!hide ? 'password' : 'text'"
-      />
-      <div
-        class="like-btn"
-        mat-icon-button
-        matSuffix
-        (click)="hide = !hide"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hide"
-      >
-        <mat-icon color="primary">{{
-          !hide ? "visibility_off" : "visibility"
-        }}</mat-icon>
-      </div>
-      <mat-error *ngIf="form.controls.password.invalid">
-        {{ getErrorMessage() }}
-      </mat-error>
-      <mat-hint align="end">
-        <mat-icon
-          *ngIf="form.value.password && form.value.password.length > 8"
-          color="primary"
-          >check</mat-icon
+      <mat-form-field class="field">
+        <mat-label>Enter your password</mat-label>
+        <input
+          formControlName="password"
+          matInput
+          minlength="8"
+          [type]="!hide ? 'password' : 'text'"
+        />
+        <div
+          class="like-btn"
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
         >
-      </mat-hint>
-    </mat-form-field>
+          <mat-icon color="primary">{{
+            !hide ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </div>
+        <mat-error *ngIf="form.controls.password.invalid">
+          {{ getErrorMessage() }}
+        </mat-error>
+        <mat-hint align="end">
+          <mat-icon
+            *ngIf="form.value.password && form.value.password.length > 8"
+            color="primary"
+            >check</mat-icon
+          >
+        </mat-hint>
+      </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit">Login</button>
-  </form>
-  <div class="footer">
-    <p>if You doesnt Have Account</p>
-    <button mat-stroked-button color="primary" (click)="goToRegister()" class="like-btn">
-      Register
-    </button>
-  </div>
+      <button mat-raised-button color="primary" type="submit" (click)="login()">
+        Login
+      </button>
+    </form>
+    <div class="footer">
+      <p>if You doesnt Have Account</p>
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="goToRegister()"
+        class="like-btn"
+      >
+        Register
+      </button>
+    </div>
+  </mat-card>
+  <!-- </div> -->
   <svg
     id="wave"
     class="first"

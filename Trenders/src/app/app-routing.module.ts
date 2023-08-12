@@ -6,7 +6,7 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   {
     path: 'home', loadComponent: () =>
-      import('src/app/Components/Home/home/home.component')
+      import('src/app/Components/home/home.component')
         .then(m => m.HomeComponent),
     canActivate: [AuthGuardService]
   },
