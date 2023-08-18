@@ -5,6 +5,6 @@ export interface Institution {
     id: number;
     address: string;
     created_at: string;
-    user: User;
+    name: string;
     categories: Category[];
 }
