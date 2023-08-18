@@ -1,0 +1,24 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar>
+      <img ngSrc="/Trenders/src/favicon.ico" />
+    </div>
+    <mat-card-title>{{ trender.institute.user.username }}</mat-card-title>
+    <mat-card-subtitle>{{ trender.institute.address }}</mat-card-subtitle>
+  </mat-card-header>
+  <img
+    mat-card-image
+    ngSrc="https://material.angular.io/assets/img/examples/shiba2.jpg"
+    alt="Photo of a Shiba Inu"
+  />
+  <mat-card-content>
+    <h2>{{ trender.title }}</h2>
+    <p>
+      {{ trender.description }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>LIKE</button>
+    <button mat-button>SHARE</button>
+  </mat-card-actions>
+</mat-card>

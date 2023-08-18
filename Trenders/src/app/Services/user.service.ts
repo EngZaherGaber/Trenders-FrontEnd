@@ -3,9 +3,6 @@ import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { User } from '../Interfaces/user';
 import { PhoneNumber } from 'libphonenumber-js';
 import { Company } from '../Interfaces/company';
-import { Customer } from '../Interfaces/customer';
-import { Bank } from '../Interfaces/bank';
-import { Deleivery } from '../Interfaces/deleivery';
 import { GeneralService } from './general.service';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,7 +14,6 @@ import { Router } from '@angular/router';
 export class UserService {
   loggingUser: User;
   url: string;
-  deleiveryList: Deleivery[] = [];
   constructor(private general: GeneralService, private route: Router, private http: HttpClient, private _snackBar: MatSnackBar) {
     this.url = general.getUrl();
   }
@@ -71,6 +67,7 @@ export class UserService {
       if (res['token']) {
         this.general.changeToken(res['token']);
         this._snackBar.open('Correct Login');
+
         this.route.navigate(['/home']);
       }
 

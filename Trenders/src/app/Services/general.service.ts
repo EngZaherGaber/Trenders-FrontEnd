@@ -13,8 +13,13 @@ export class GeneralService {
   }
   changeToken(token: string) {
     this.token = token;
+    sessionStorage.setItem('Token', token);
   }
   getToken() {
+    if (!this.token) {
+      this.token = sessionStorage.getItem('Token');
+      console.log(this.token)
+    }
     return this.token;
   }
 }

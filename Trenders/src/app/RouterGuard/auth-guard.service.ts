@@ -10,6 +10,7 @@ import { GeneralService } from '../Services/general.service';
 export class AuthGuardService implements CanActivate {
 
   constructor(private general: GeneralService, private router: Router) { }
+  userType: string = 'company';
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
