@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, Renderer2, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TrendersService } from 'src/app/Services/trenders.service';
 import { TrenderCardComponent } from '../trender-card/trender-card.component';
@@ -19,15 +19,16 @@ export class CompanyHomeComponent {
 
   Trenders: any[];
 
-  constructor(private trenderSrv: TrendersService, private categoriesSrv: CategoriesService, private countrySrv: CountriesService) { }
   Lcategories$: Observable<Category[]>;
   Lcities$: Observable<string[]>;
+  constructor(private renderer: Renderer2, private trenderSrv: TrendersService, private categoriesSrv: CategoriesService, private countrySrv: CountriesService) { }
   ngOnInit() {
     this.Lcategories$ = this.categoriesSrv.getAllCategories();
     console.log(this.Lcategories$)
     this.Lcities$ = this.countrySrv.getAllCities('Syria');
     this.Trenders = this.trenderSrv.getTenders();
   }
+
 
   Search() {
 
