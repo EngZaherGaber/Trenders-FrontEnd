@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../Material/Material.module';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
+import { UserService } from 'src/app/Services/user.service';
+import { GeneralService } from 'src/app/Services/general.service';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +21,7 @@ export class HomeComponent {
 
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
 
-  constructor(private observer: BreakpointObserver) { }
+  constructor(private observer: BreakpointObserver, private usrSrv: UserService, private generalSrv: GeneralService) { }
   ngOnInit() {
     if (this.userType === 'company') {
       this.home = 'company';
@@ -36,5 +38,8 @@ export class HomeComponent {
         this.sidenav.open();
       }
     });
+  }
+  logOut() {
+    this.usrSrv.logOut();
   }
 }

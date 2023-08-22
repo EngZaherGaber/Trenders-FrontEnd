@@ -207,6 +207,14 @@
             >
           </mat-form-field>
 
+          <div>
+            <label>Upload Image</label>
+            <input
+              type="file"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+            />
+          </div>
           <div class="action-div">
             <button
               type="button"
@@ -225,7 +233,8 @@
                 form.controls.user_info.controls.username.invalid ||
                 form.controls.user_info.controls.email.invalid ||
                 form.controls.user_info.controls.password.invalid ||
-                form.controls.user_info.controls.confirm.invalid
+                form.controls.user_info.controls.confirm.invalid ||
+                !form.controls.user_info.controls.img.touched
               "
             >
               Next

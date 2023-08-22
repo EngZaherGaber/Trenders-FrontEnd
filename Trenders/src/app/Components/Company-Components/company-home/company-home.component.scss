@@ -8,6 +8,8 @@
   padding: 1vh;
   box-shadow: inset 0px 0px 5px 1px black;
   overflow-y: auto;
+  padding-bottom: 5vh;
+  background-color: $light-white;
   height: 100%;
   .filter-div {
     display: flex;
@@ -51,7 +53,7 @@
               display: none;
             }
             label {
-              background-color: $light-white;
+              background-color: $dark-white;
               width: 100%;
               padding: 10px 20px;
               margin-block: 5px;
@@ -59,7 +61,8 @@
               color: $dark-blue;
             }
             input:checked + label {
-              background-color: $dark-white;
+              background-color: $dark-blue;
+              color: $light-white;
             }
           }
         }

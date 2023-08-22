@@ -29,19 +29,11 @@ export class UserService {
       return false;
     }
   }
-  addUser(username: string, password: string, type: string, email: string, categories: string, address: string, createdDate: Date) {
+  addUser(formdata: FormData) {
     const url = this.url + 'register';
-    const body = {
-      name: username,
-      email: email,
-      password: password,
-      type: type,
-      category_ids: categories,
-      created_in: createdDate,
-      address: address,
-      password_confirmation: password
-    }
-    this.http.post(url, body).subscribe(res => {
+
+
+    this.http.post(url, formdata).subscribe(res => {
       if (res['token']) {
         this.general.changeToken(res['token']);
         this._snackBar.open('Correct Register');
@@ -79,5 +71,7 @@ export class UserService {
   }
   logOut() {
     this.loggingUser = undefined;
+    this.general.changeToken('');
+    this.route.navigate(['login'])
   }
 }

@@ -73,6 +73,7 @@ export class RegisterComponent {
   stepperOrientation: Observable<StepperOrientation>;
   hide: boolean = false;
   hideConfirm: boolean = false;
+  selectedFile: File | null = null;
   //
 
   // form
@@ -81,6 +82,7 @@ export class RegisterComponent {
       type: ['', Validators.required],
       username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
+      img: [null],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirm: ['', Validators.required, this.confirmValidator()],
     }),
@@ -196,16 +198,23 @@ export class RegisterComponent {
     datepicker.close();
   }
   //
-
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0] as File;
+    this.form.controls.user_info.controls.img.patchValue(this.selectedFile);
+    this.form.controls.user_info.controls.img.markAsTouched();
+  }
   submit() {
-    this.userSrv.addUser(this.form.controls.user_info.value.username,
-      this.form.controls.user_info.value.password,
-      this.form.controls.user_info.value.type,
-      this.form.controls.user_info.value.email,
-      this.form.controls.other_info.value.categories,
-      this.form.controls.other_info.value.address,
-      new Date(this.form.controls.other_info.value.createdDate),
-    );
+    const formdata: FormData = new FormData();
+    formdata.append('profileImg', this.form.controls.user_info.value.img);
+    formdata.append('name', this.form.controls.user_info.value.username);
+    formdata.append('email', this.form.controls.user_info.value.email);
+    formdata.append('password', this.form.controls.user_info.value.password);
+    formdata.append('type', this.form.controls.user_info.value.type);
+    formdata.append('password_confirmation', this.form.controls.user_info.value.confirm);
+    formdata.append('category_ids', this.form.controls.other_info.value.categories);
+    formdata.append('address', this.form.controls.other_info.value.address);
+    formdata.append('created_in', this.form.controls.other_info.value.createdDate);
+    this.userSrv.addUser(formdata);
     //////////////////////////////
 
     /////////////////////////////
