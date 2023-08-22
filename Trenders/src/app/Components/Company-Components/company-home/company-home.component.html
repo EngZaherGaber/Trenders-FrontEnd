@@ -1,1 +1,32 @@
-<app-trender-card *ngFor="let trender of Trenders"></app-trender-card>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <form>
+      <mat-form-field class="search">
+        <mat-label class="search">Search</mat-label>
+        <input
+          class="search"
+          matInput
+          formControlName="username"
+          (keyup.enter)="Search()"
+        />
+        <button mat-icon-button matSuffix (click)="Search()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div class="container">
+  <div class="categories-div">
+    <div class="category" *ngFor="let category of Lcategories$ | async">
+      <input [id]="category.name" type="checkbox" [value]="category.name" />
+      <label [for]="category.name">{{ category.name }}</label>
+    </div>
+  </div>
+  <div class="trenders">
+    <app-trender-card
+      [trender]="trender"
+      *ngFor="let trender of Trenders"
+    ></app-trender-card>
+  </div>
+</div>

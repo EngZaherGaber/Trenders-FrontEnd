@@ -1,24 +1,41 @@
-<mat-card class="example-card">
+<mat-card class="card">
   <mat-card-header>
-    <div mat-card-avatar>
-      <img ngSrc="/Trenders/src/favicon.ico" />
+    <div mat-card-avatar class="avatar">
+      <img
+        width="100"
+        height="150"
+        mat-card-avatar
+        ngSrc="../../../../assets/photo_2023-04-25_02-47-35.jpg"
+      />
     </div>
-    <mat-card-title>{{ trender.institute.name }}</mat-card-title>
-    <mat-card-subtitle>{{ trender.institute.address }}</mat-card-subtitle>
+    <h3>
+      <mat-card-title>{{ trender.institute.name }}</mat-card-title>
+    </h3>
   </mat-card-header>
-  <img
+
+  <div
     mat-card-image
-    ngSrc="https://material.angular.io/assets/img/examples/shiba2.jpg"
-    alt="Photo of a Shiba Inu"
-  />
+    class="trender-img"
+    [style]="'background-image: url(\'' + trender.institute.img + '\')'"
+  ></div>
   <mat-card-content>
     <h2>{{ trender.title }}</h2>
+    <input type="checkbox" class="toggle" [id]="'toggle' + trender.id" />
+    <label [for]="'toggle' + trender.id" *ngIf="trender.description"></label>
     <p>
-      {{ trender.description }}
+      {{ trender.description }} Lorem ipsum dolor sit amet consectetur
+      adipisicing elit. Vel quo possimus nesciunt quisquam dolore aliquam quas.
+      Fugiat quos explicabo vel eveniet voluptatum commodi praesentium
+      repudiandae voluptatibus? Veritatis ipsam aliquid maxime. Lorem ipsum
+      dolor sit amet consectetur adipisicing elit. Ratione cum, fugit
+      necessitatibus aliquid eaque, voluptate, temporibus sint similique tempore
+      vitae ad sapiente! Voluptatum saepe cupiditate, vel perferendis expedita
+      eius reprehenderit.
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button>LIKE</button>
-    <button mat-button>SHARE</button>
+    <button mat-fab extended color="primary">
+      <mat-icon>add</mat-icon>Add Offer
+    </button>
   </mat-card-actions>
 </mat-card>

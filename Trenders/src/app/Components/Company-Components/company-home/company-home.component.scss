@@ -1,0 +1,44 @@
+@use "../../../../assets/styles/color" as *;
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 1vh;
+  box-shadow: inset 0px 0px 5px 1px black;
+  overflow-y: auto;
+  height: 100%;
+  .categories-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 25%;
+    border: 1px solid gray;
+    margin: 5px;
+  }
+  .trenders {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+    app-trender-card {
+      width: 100%;
+      max-width: 500px;
+      margin-block: 2vh;
+    }
+  }
+}
+mat-toolbar-row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  mat-form-field.search,
+  .search {
+    color: $light-white;
+  }
+  mat-form-field.search {
+    margin-inline: 20px;
+  }
+}

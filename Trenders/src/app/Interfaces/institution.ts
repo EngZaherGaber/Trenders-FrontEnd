@@ -7,4 +7,5 @@ export interface Institution {
     created_at: string;
     name: string;
     categories: Category[];
+    img: string;
 }

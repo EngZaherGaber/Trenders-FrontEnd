@@ -7,7 +7,16 @@ import { Trender } from '../Interfaces/trender';
 export class TrendersService {
 
   Tenders: Trender[] = [
-    { id: 1, title: 'Electronic Trender', description: 'Pla pla', institute: null, details: [], img: '' }
+    {
+      id: 1, title: 'Electronic Trender', description: 'Pla pla', institute: {
+        id: 1, name: 'Elec', address: 'Damascus', created_at: '12/12/2022', categories: [{ id: 1, name: 'electronics' }], img: './\assets/\photo_2023-04-25_02-47-35.jpg'
+      }, details: [], img: ''
+    },
+    {
+      id: 2, title: 'Electronic Trender', description: 'Pla pla', institute: {
+        id: 1, name: 'Elec', address: 'Damascus', created_at: '12/12/2022', categories: [{ id: 1, name: 'electronics' }], img: './\assets/\photo_2023-04-25_02-47-35.jpg'
+      }, details: [], img: ''
+    }
   ]
 
   constructor() { }

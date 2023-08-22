@@ -13,8 +13,9 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$Trenders-primary: mat.define-palette(mat.$indigo-palette, 800);
-$Trenders-accent: mat.define-palette(mat.$indigo-palette, 100);
+$Trenders-primary: mat.define-palette(mat.$indigo-palette, 400);
+$Trenders-accent: mat.define-palette(mat.$indigo-palette, 200);
+$Trenders-background: mat.define-palette(mat.$indigo-palette, 100);
 
 // The warn palette is optional (defaults to red).
 $Trenders-warn: mat.define-palette(mat.$red-palette);
@@ -27,6 +28,7 @@ $Trenders-theme: mat.define-light-theme(
       primary: $Trenders-primary,
       accent: $Trenders-accent,
       warn: $Trenders-warn,
+      background: $Trenders-background,
     ),
   )
 );
@@ -38,6 +40,11 @@ $Trenders-theme: mat.define-light-theme(
 
 /* You can add global styles to this file, and also import other style files */
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 html,
 body {
   height: 100%;
@@ -46,8 +53,14 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+a {
+  text-decoration: none;
+}
 .mdc-form-field {
   width: 100%;
+}
+.search .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: transparent !important;
 }
 // .mat-mdc-form-field-hint-wrapper,
 // .mat-mdc-form-field-error-wrapper {
