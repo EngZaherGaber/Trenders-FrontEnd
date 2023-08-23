@@ -8,6 +8,12 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/mat
 import { MatDatepicker } from '@angular/material/datepicker';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangePasswordComponent } from '../../dialogs/change-password/change-password.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CategoriesService } from 'src/app/Services/categories.service';
+import { CountriesService } from 'src/app/Services/countries.service';
+
 export const MY_FORMATS = {
   parse: {
     dateInput: 'YYYY',
@@ -65,10 +71,32 @@ export class ProfileComponent {
 
   });
   hide: boolean = false;
+  editMode: boolean = false;
   hideConfirm: boolean = false;
   Lcategories$: Observable<Category[]>;
   Lcities$: Observable<string[]>;
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private categoriesSrv: CategoriesService, private countrySrv: CountriesService, private dialog: MatDialog, private _snackBar: MatSnackBar) { }
+  ngOnInit() {
+    this.form.disable();
+    this.Lcategories$ = this.categoriesSrv.getAllCategories();
+    this.Lcities$ = this.countrySrv.getAllCities('Syria');
+  }
+  ChangePassword() {
+    const dialogRef = this.dialog.open(ChangePasswordComponent, {
+
+      enterAnimationDuration: '2000ms',
+      exitAnimationDuration: '2000ms',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res === 'OK') {
+        this._snackBar.open('Password Change!')
+      }
+      else {
+        this._snackBar.open('Password Not Change!')
+
+      }
+    })
+  }
   // Validator
   confirmValidator(): ValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
@@ -123,12 +151,29 @@ export class ProfileComponent {
   }
   getAddressErrorMessage() {
     if (this.form.controls.other_info.controls.address.hasError('required')) {
-      console.log('You must enter a value')
       return 'You must enter a value';
     }
     else {
       return ''
     }
+  }
+  getCreatedDateErrorMessage() {
+    if (this.form.controls.other_info.controls.createdDate.hasError('required')) {
+      return 'You must enter a value';
+    }
+    else {
+      return ''
+    }
+
+  }
+  getCategoriesErrorMessage() {
+    if (this.form.controls.other_info.controls.createdDate.hasError('required')) {
+      return 'You must enter a value';
+    }
+    else {
+      return ''
+    }
+
   }
   //
   //state

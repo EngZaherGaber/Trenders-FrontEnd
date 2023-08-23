@@ -51,14 +51,22 @@ body {
 }
 body {
   margin: 0;
+  background-color: $light-white;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 a {
   text-decoration: none;
 }
+.mat-form-field-disabled {
+  background-color: transparent;
+}
+.mdc-text-field--disabled.mdc-text-field--filled {
+  background-color: $dark-white;
+}
 .mdc-form-field {
   width: 100%;
 }
+.search .mdc-text-field--filled:not(.mdc-text-field--disabled),
 .search .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: transparent !important;
 }

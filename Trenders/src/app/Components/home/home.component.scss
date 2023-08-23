@@ -39,6 +39,8 @@ mat-sidenav {
 }
 mat-sidenav-content {
   overflow: hidden;
+  background-color: $light-white;
+  box-shadow: inset 0px 0px 5px 1px black;
 }
 .big-container {
   height: calc(100vh - 64px);

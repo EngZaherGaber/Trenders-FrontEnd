@@ -1,12 +1,12 @@
 // importing
-import { Component, NgModule, ViewChild, ElementRef } from '@angular/core';
+import { Component, NgModule, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ValidationErrors, ReactiveFormsModule, Validators, FormsModule, FormControl, ValidatorFn, AbstractControl, FormGroup, FormArray } from '@angular/forms';
 import { UserService } from 'src/app/Services/user.service';
 import { Router } from '@angular/router';
 import { MaterialModule } from '../../Material/Material.module';
-import { Observable, map, of, startWith } from 'rxjs';
+import { Observable, map, of, startWith, Subscription } from 'rxjs';
 import { StepperOrientation } from '@angular/cdk/stepper';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CountriesService } from '../../../Services/countries.service';
@@ -66,10 +66,11 @@ export const MY_FORMATS2 = {
       provide: MAT_DATE_FORMATS, useValue: MY_FORMATS2
     },]
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit, OnDestroy {
   // variables
   Lcategories$: Observable<Category[]>;
   Lcities$: Observable<string[]>;
+  private subscription: Subscription = new Subscription();
   stepperOrientation: Observable<StepperOrientation>;
   hide: boolean = false;
   hideConfirm: boolean = false;
@@ -112,7 +113,9 @@ export class RegisterComponent {
     this.Lcategories$ = this.categoriesSrv.getAllCategories();
     this.Lcities$ = this.countrySrv.getAllCities('Syria');
   }
-
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
   // Validator
   confirmValidator(): ValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
