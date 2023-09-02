@@ -88,7 +88,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       confirm: ['', Validators.required, this.confirmValidator()],
     }),
     other_info: this.fb.group({
-      categories: ['', Validators.required],
+      categories: new FormControl<number[]>([], Validators.required),
       createdDate: ['', Validators.required],
       address: ['', Validators.required],
     })
@@ -214,9 +214,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     formdata.append('password', this.form.controls.user_info.value.password);
     formdata.append('type', this.form.controls.user_info.value.type);
     formdata.append('password_confirmation', this.form.controls.user_info.value.confirm);
-    formdata.append('category_ids', this.form.controls.other_info.value.categories);
+    formdata.append('category_ids', JSON.stringify(this.form.controls.other_info.value.categories));
     formdata.append('address', this.form.controls.other_info.value.address);
-    formdata.append('created_in', this.form.controls.other_info.value.createdDate);
+    formdata.append('created_in', new Date(+this.form.controls.other_info.value.createdDate, 0, 1).toDateString());
     this.userSrv.addUser(formdata);
     //////////////////////////////
 
