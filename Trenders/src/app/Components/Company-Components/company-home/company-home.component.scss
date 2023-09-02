@@ -1,21 +1,44 @@
 @use "../../../../assets/styles/color" as *;
-
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column !important;
+    .filter-div {
+      width: 100% !important;
+      .categories,
+      .cities {
+        .list {
+          flex-direction: row !important;
+          gap: 5px;
+          .category {
+            label {
+              width: max-content !important;
+              padding: 10px !important;
+            }
+          }
+        }
+      }
+    }
+    .trenders {
+      width: 100% !important;
+    }
+  }
+}
 .container {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
   padding: 1vh;
-  box-shadow: inset 0px 0px 5px 1px black;
   overflow-y: auto;
   padding-bottom: 5vh;
-  background-color: $light-white;
+
   height: 100%;
+
   .filter-div {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 25%;
+    width: fit-content;
     border-right: 1px solid $dark-blue;
     border-bottom: 1px solid $dark-blue;
     /* margin: 5px; */

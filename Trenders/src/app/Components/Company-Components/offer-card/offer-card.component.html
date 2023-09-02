@@ -1,9 +1,19 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title-group>
-      <mat-card-title></mat-card-title>
-      <mat-card-subtitle></mat-card-subtitle>
+      <mat-card-title>{{ offer.trender.title }}</mat-card-title>
+
+      <mat-card-subtitle
+        >* For : {{ offer.trender.institute.name }} <br />
+        <hr />
+        * Work On It At: 2022/02/02 <br />
+        <hr />
+        * Work Ended At: 2022/02/02
+      </mat-card-subtitle>
     </mat-card-title-group>
   </mat-card-header>
-  <mat-card-content></mat-card-content>
+  <mat-card-content> </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="accent">Show Offer</button>
+  </mat-card-actions>
 </mat-card>

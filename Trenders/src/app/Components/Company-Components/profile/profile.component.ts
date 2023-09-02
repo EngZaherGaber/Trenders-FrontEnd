@@ -13,6 +13,9 @@ import { ChangePasswordComponent } from '../../dialogs/change-password/change-pa
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoriesService } from 'src/app/Services/categories.service';
 import { CountriesService } from 'src/app/Services/countries.service';
+import { OfferCardComponent } from '../offer-card/offer-card.component';
+import { Offer } from 'src/app/Interfaces/offer';
+import { OffersService } from 'src/app/Services/offers.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -39,7 +42,7 @@ export const MY_FORMATS2 = {
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MaterialModule, NgxMaskDirective],
+  imports: [CommonModule, OfferCardComponent, ReactiveFormsModule, FormsModule, MaterialModule, NgxMaskDirective],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
   providers: [provideNgxMask(),
@@ -75,11 +78,14 @@ export class ProfileComponent {
   hideConfirm: boolean = false;
   Lcategories$: Observable<Category[]>;
   Lcities$: Observable<string[]>;
-  constructor(private fb: FormBuilder, private categoriesSrv: CategoriesService, private countrySrv: CountriesService, private dialog: MatDialog, private _snackBar: MatSnackBar) { }
+  Loffers_ended$: Observable<Offer[]>;
+  offers_ended: Offer[];
+  constructor(private offerSrv: OffersService, private fb: FormBuilder, private categoriesSrv: CategoriesService, private countrySrv: CountriesService, private dialog: MatDialog, private _snackBar: MatSnackBar) { }
   ngOnInit() {
     this.form.disable();
     this.Lcategories$ = this.categoriesSrv.getAllCategories();
     this.Lcities$ = this.countrySrv.getAllCities('Syria');
+    this.offers_ended = this.offerSrv.getOffersByStatus('');
   }
   ChangePassword() {
     const dialogRef = this.dialog.open(ChangePasswordComponent, {

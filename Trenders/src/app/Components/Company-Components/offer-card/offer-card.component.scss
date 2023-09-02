@@ -1,0 +1,42 @@
+@use "../../../../assets/styles/color" as *;
+mat-card {
+  background-color: $dark-blue;
+  margin-block: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px 0px gray;
+  max-width: 350px;
+  mat-card-header {
+    width: 100%;
+    mat-card-title-group {
+      width: 100%;
+      display: block;
+      mat-card-title {
+        background-color: $dark-white;
+        border-radius: 10px;
+        color: $dark-blue;
+        width: 100%;
+        padding: 10px 20px;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      hr {
+        margin-block: 10px;
+        height: 3px;
+        background-color: $dark-white;
+      }
+      mat-card-subtitle {
+        margin-inline: 20px;
+        color: $light-white;
+      }
+    }
+  }
+  mat-card-actions {
+    width: 100%;
+    display: flex;
+    button {
+      width: 50%;
+      margin: 10px auto;
+      color: $light-white;
+    }
+  }
+}

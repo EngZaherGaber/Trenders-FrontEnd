@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../Material/Material.module';
+import { Offer } from 'src/app/Interfaces/offer';
 
 @Component({
   selector: 'app-offer-card',
@@ -10,5 +11,6 @@ import { MaterialModule } from '../../Material/Material.module';
   styleUrls: ['./offer-card.component.scss']
 })
 export class OfferCardComponent {
+  @Input('offer') offer: Offer;
 
 }

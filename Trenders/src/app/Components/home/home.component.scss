@@ -71,3 +71,8 @@ mat-sidenav-content {
   background-color: $dark-blue;
   border-radius: 10px;
 }
+@media (max-width: 768px) {
+  ::ng-deep ::-webkit-scrollbar {
+    display: none;
+  }
+}

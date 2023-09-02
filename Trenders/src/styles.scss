@@ -70,6 +70,14 @@ a {
 .search .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: transparent !important;
 }
+.mat-step-icon {
+  color: $dark-blue !important;
+  background-color: $dark-white !important;
+}
+.mat-step-icon-selected {
+  background-color: $dark-blue !important;
+  color: $dark-white !important;
+}
 // .mat-mdc-form-field-hint-wrapper,
 // .mat-mdc-form-field-error-wrapper {
 //   position: relative !important;
