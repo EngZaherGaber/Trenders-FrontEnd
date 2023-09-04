@@ -208,15 +208,18 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
   submit() {
     const formdata: FormData = new FormData();
+    const categories: number[] = [];
+    this.form.controls.other_info.value.categories.forEach(cat => categories.push(cat))
     formdata.append('profileImg', this.form.controls.user_info.value.img);
     formdata.append('name', this.form.controls.user_info.value.username);
     formdata.append('email', this.form.controls.user_info.value.email);
     formdata.append('password', this.form.controls.user_info.value.password);
     formdata.append('type', this.form.controls.user_info.value.type);
     formdata.append('password_confirmation', this.form.controls.user_info.value.confirm);
-    formdata.append('category_ids', JSON.stringify(this.form.controls.other_info.value.categories));
+    formdata.append('category_ids', JSON.stringify(categories));
     formdata.append('address', this.form.controls.other_info.value.address);
     formdata.append('created_in', new Date(+this.form.controls.other_info.value.createdDate, 0, 1).toDateString());
+    console.log(typeof (formdata.get('category_ids')))
     this.userSrv.addUser(formdata);
     //////////////////////////////
 

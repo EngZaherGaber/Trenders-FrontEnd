@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CompanyHomeComponent } from '../Company-Components/company-home/company-home.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../Material/Material.module';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -17,14 +17,22 @@ import { GeneralService } from 'src/app/Services/general.service';
 })
 export class HomeComponent {
   home: string = '';
-  userType: string = 'company';
+  userType: string = 'institute';
 
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
 
-  constructor(private observer: BreakpointObserver, private usrSrv: UserService, private generalSrv: GeneralService) { }
+  constructor(private observer: BreakpointObserver,
+    private usrSrv: UserService,
+    private router: Router,
+    private generalSrv: GeneralService) { }
   ngOnInit() {
     if (this.userType === 'company') {
+      this.router.navigate(['home/company'])
       this.home = 'company';
+    }
+    else {
+      this.router.navigate(['home/institute'])
+      this.home = 'institute';
     }
   }
   ngAfterViewInit() {

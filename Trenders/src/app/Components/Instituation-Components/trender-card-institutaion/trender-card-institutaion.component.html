@@ -1,0 +1,109 @@
+<mat-card class="card">
+  <mat-card-header>
+    <h2>{{ trender.title }}</h2>
+  </mat-card-header>
+
+  <!-- <div
+    mat-card-image
+    class="trender-img"
+    [style]="'background-image: url(\'' + trender.institute.img + '\')'"
+  ></div> -->
+  <mat-card-content>
+    <div class="details">
+      <h2>Details</h2>
+      <div class="details-div">
+        <div class="info">
+          <h5>Created_At</h5>
+          <p>2023/07/08</p>
+        </div>
+        <div class="info">
+          <h5>Ended_At</h5>
+          <p>2023/07/08</p>
+        </div>
+        <div class="info">
+          <h5>Total Offers</h5>
+          <p>8</p>
+        </div>
+        <div class="info">
+          <h5>Best Offer From</h5>
+          <p>Syriatel</p>
+        </div>
+      </div>
+    </div>
+    <div class="offers">
+      <h2>Offers</h2>
+      <div class="offers-div">
+        <mat-list>
+          <mat-list-item>
+            <span matListItemIcon class="img"
+              ><img
+                ngSrc="../../../../assets/photo_2023-04-25_02-47-35.jpg"
+                height="100"
+                width="100"
+            /></span>
+            <span matListItemTitle>Title</span>
+            <span matListItemLine>Second line</span>
+            <span matListItemLine>Third line</span>
+            <div class="actions">
+              <button mat-icon-button>
+                <mat-icon>remove_red_eye</mat-icon>
+              </button>
+
+              <button mat-icon-button>
+                <mat-icon>compare_arrows</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+          <div class="hr"></div>
+
+          <mat-list-item>
+            <span matListItemIcon class="img"
+              ><img
+                ngSrc="../../../../assets/photo_2023-04-25_02-47-35.jpg"
+                height="100"
+                width="100"
+            /></span>
+            <span matListItemTitle>Title</span>
+            <span matListItemLine>Second line</span>
+            <span matListItemLine>Third line</span>
+            <div class="actions">
+              <button mat-icon-button>
+                <mat-icon>remove_red_eye</mat-icon>
+              </button>
+
+              <button mat-icon-button>
+                <mat-icon>compare_arrows</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+          <div class="hr"></div>
+          <mat-list-item>
+            <span matListItemIcon class="img"
+              ><img
+                ngSrc="../../../../assets/photo_2023-04-25_02-47-35.jpg"
+                height="100"
+                width="100"
+            /></span>
+            <span matListItemTitle>Title</span>
+            <span matListItemLine>Second line</span>
+            <span matListItemLine>Third line</span>
+            <div class="actions">
+              <button mat-icon-button>
+                <mat-icon>remove_red_eye</mat-icon>
+              </button>
+
+              <button mat-icon-button>
+                <mat-icon>compare_arrows</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary">Close</button>
+    <button mat-raised-button color="accent">Edit</button>
+    <button mat-raised-button color="warn">Delete</button>
+  </mat-card-actions>
+</mat-card>

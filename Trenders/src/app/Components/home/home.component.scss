@@ -59,8 +59,9 @@ mat-sidenav-content {
 ::ng-deep ::-webkit-scrollbar {
   background-color: $dark-blue;
   border-radius: 10px;
-  width: 10px;
-  height: 20px;
+  width: 5px;
+  position: absolute;
+  height: 5px;
 }
 /* Add a custom scrollbar */
 ::ng-deep ::-webkit-scrollbar-track {
