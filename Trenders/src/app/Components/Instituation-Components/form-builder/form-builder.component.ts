@@ -8,6 +8,7 @@ import { FormBuilderService } from 'src/app/Services/form-builder.service';
 import { MaterialModule } from '../../Material/Material.module';
 import { MatDialog } from '@angular/material/dialog';
 import { FormViewerComponent } from '../../Company-Components/form-viewer/form-viewer.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-form-builder',
   standalone: true,
@@ -35,12 +36,6 @@ export class FormBuilderComponent {
     description: this.fb.control('', Validators.required),
     img: this.fb.control('', Validators.required),
   });
-  // id: number;
-  // title: string;
-  // description: string;
-  // institute: Institution;
-  // details: any[];
-  // img: string;
   selectedElement: FormElement;
   SelectedValidators: any[];
   Types = [];
@@ -50,7 +45,8 @@ export class FormBuilderComponent {
     private renderer: Renderer2,
     private FBS: FormBuilderService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _snackBar: MatSnackBar
   ) { }
   ngOnInit() {
 
@@ -145,18 +141,22 @@ export class FormBuilderComponent {
     this.selectedElement.Choices.push({ value: '' });
   }
   openDialog() {
-    this.FullInfo = {
-      title: this.form.value.title,
-      desciption: this.form.value.description,
-      img: this.form.value.img,
-      details: this.creatElements,
+    const x = this.creatElements.find(x => x.Label === '');
+    if (x === undefined) {
+      this.FullInfo = {
+        title: this.form.value.title,
+        desciption: this.form.value.description,
+        img: this.form.value.img,
+        details: this.creatElements,
+        columns: this.columns
+      }
+      const dialogRef = this.dialog.open(FormViewerComponent, {
+        data: this.FullInfo,
+        height: '60vh',
+        width: '60vw',
+      });
+    } else {
+      this._snackBar.open('Please Fill Label For All Elements')
     }
-    const dialogRef = this.dialog.open(FormViewerComponent, {
-      data: this.FullInfo,
-      height: '60vh',
-      width: '60vw',
-    });
-
-
   }
 }

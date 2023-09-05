@@ -31,6 +31,11 @@ const routes: Routes = [
             loadComponent: () => import('src/app/Components/Instituation-Components/form-builder/form-builder.component')
               .then(m => m.FormBuilderComponent), canActivate: [InstituteHomeGuardService]
           },
+          {
+            path: 'add-offer/:id',
+            loadComponent: () => import('src/app/Components/Instituation-Components/form-builder/form-builder.component')
+              .then(m => m.FormBuilderComponent), canActivate: [CompanyHomeGuardService]
+          },
           // {
           //   path: '',
           //   pathMatch: 'full',

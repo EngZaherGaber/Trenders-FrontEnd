@@ -1,0 +1,81 @@
+.big-container {
+  display: flex;
+  width: 100%;
+  .small-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    h3 {
+      width: 100%;
+      text-align: center;
+    }
+    .form-container {
+      width: 100%;
+      form {
+        display: grid;
+        grid-gap: 1vw;
+        gap: 1vw;
+        padding: 20px;
+        margin: 20px;
+        box-shadow: 0px 0px 5px 0px black;
+
+        .box {
+          width: 100%;
+
+          .element-container {
+            position: relative;
+            display: flex;
+            overflow-x: auto;
+            align-items: baseline;
+            gap: 10px;
+            /* max-width: 1000px; */
+            padding-block: 10px;
+            width: 100%;
+            align-items: center;
+            label {
+              width: 100%;
+              max-width: 200px;
+              word-wrap: break-word;
+              text-align: left;
+            }
+            .small-container {
+              display: flex;
+              flex-direction: column;
+              width: 100%;
+              .with-label {
+                display: flex;
+                gap: 10px;
+              }
+              * {
+                width: 100%;
+                max-width: 300px;
+                word-wrap: break-word;
+              }
+            }
+          }
+          .action {
+            display: none;
+            position: absolute;
+            width: 100%;
+          }
+        }
+        .box:hover .action {
+          display: flex;
+          justify-content: center;
+          box-shadow: 0px 0px 5px 0px black;
+          width: fit-content;
+          right: 0;
+          top: 0;
+          background: white;
+        }
+        button {
+          width: 100%;
+          grid-column: 1 / span 10;
+        }
+      }
+    }
+  }
+}
+mat-form-field {
+  width: 100%;
+}

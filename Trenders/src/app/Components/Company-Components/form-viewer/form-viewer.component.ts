@@ -136,7 +136,6 @@ export class FormViewerComponent {
   }
   getErrorMessage(item: FormElement) {
     const control = this.formGroup.controls[item.Label];
-    debugger
     if (control.invalid && control.touched) {
       let err;
       let message;
@@ -152,7 +151,12 @@ export class FormViewerComponent {
       return '';
     }
   }
-  show() {
-    console.log(this.formGroup.controls)
+  submit() {
+    if (this.formGroup.invalid) {
+      this.formGroup.markAllAsTouched();
+    }
+    else {
+
+    }
   }
 }

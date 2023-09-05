@@ -4,7 +4,7 @@
     <div class="form-container">
       <form
         [formGroup]="formGroup"
-        [style.grid-template-columns]="'repeat(' + data.Columns + ',1fr)'"
+        [style.grid-template-columns]="'repeat(' + data.columns + ',1fr)'"
       >
         <div
           class="box"
@@ -48,16 +48,22 @@
           <div class="element-container" *ngIf="item.Name === 'Uploader'">
             <label>{{ item.Label !== "" ? item.Label : "Label" }}</label>
             <div class="small-container">
-              <input type="file" />
+              <input
+                style="display: none"
+                type="file"
+                #uploader
+                [formControlName]="item.Label"
+              />
+              <button
+                style="max-width: fit-content"
+                (click)="uploader.click()"
+                color="accent"
+                mat-raised-button
+                extended
+              >
+                Uploder<mat-icon>attach_file</mat-icon>
+              </button>
               <small>{{ item.Property.Hint }}</small>
-              <div *ngFor="let validator of item.Property.Validators">
-                <div
-                  class="alert alert-danger"
-                  *ngIf="ifValid(item, validator)"
-                >
-                  {{ validator.ErrorMessage }}
-                </div>
-              </div>
             </div>
           </div>
           <mat-form-field *ngIf="item.Name === 'Select Menu'">
@@ -66,7 +72,6 @@
             }}</mat-label>
             <mat-select
               [formControlName]="item.Label"
-              (selectionChange)="show()"
               [multiple]="item.Type === 'multiple'"
             >
               <mat-option>Select Menu</mat-option>
@@ -111,6 +116,9 @@
             >
           </mat-form-field>
         </div>
+        <button (click)="submit()" mat-raised-button color="primary">
+          Submit
+        </button>
       </form>
     </div>
   </div>
