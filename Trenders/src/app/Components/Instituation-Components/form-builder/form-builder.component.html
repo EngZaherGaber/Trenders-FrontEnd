@@ -1,1 +1,338 @@
-<p>form-builder works!</p>
+<div class="full-container">
+  <div class="sub-container">
+    <div class="card-div">
+      <div class="sub-card" id="cardPillContent" *ngIf="activeIndex == 0">
+        <div class="element-property">
+          <h2>Element Property</h2>
+          <div class="small-property" *ngIf="selectedElement !== undefined">
+            <mat-form-field>
+              <mat-label>columns Span</mat-label>
+              <input
+                matInput
+                type="number"
+                [(ngModel)]="selectedElement.colSpan"
+                min="1"
+                max="4"
+              />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Label</mat-label>
+              <input matInput [(ngModel)]="selectedElement.Label" matInput />
+            </mat-form-field>
+
+            <div
+              class="validator-inpt"
+              *ngIf="
+                selectedElement.Name === 'Input' ||
+                selectedElement.Name === 'Select Menu'
+              "
+            >
+              <mat-form-field>
+                <mat-label>Types</mat-label>
+                <mat-select [(ngModel)]="selectedElement.Type">
+                  <mat-option *ngFor="let type of Types" [value]="type">{{
+                    type
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="property-div">
+              <mat-form-field>
+                <mat-label>Hint</mat-label>
+                <textarea
+                  [rows]="3"
+                  [cols]="30"
+                  [(ngModel)]="selectedElement.Property.Hint"
+                  matInput
+                  autoResize="autoResize"
+                ></textarea>
+              </mat-form-field>
+
+              <div class="validator-inpt" *ngIf="validators.length > 0">
+                <mat-form-field>
+                  <mat-label>Validators</mat-label>
+                  <mat-select
+                    [(ngModel)]="selectedElement.Property.Validators"
+                    multiple
+                  >
+                    <mat-option
+                      *ngFor="let validator of validators"
+                      [value]="validator"
+                      >{{ validator.Type }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+                <div
+                  *ngFor="let validator of selectedElement.Property.Validators"
+                >
+                  <h4>{{ validator.Type }}</h4>
+                  <mat-form-field>
+                    <mat-label>Error Message</mat-label>
+                    <input
+                      type="text"
+                      [(ngModel)]="validator.ErrorMessage"
+                      matInput
+                    />
+                  </mat-form-field>
+                  <mat-form-field
+                    *ngIf="
+                      validator.Type !== 'required' &&
+                      validator.Type !== 'email'
+                    "
+                  >
+                    <mat-label>Value </mat-label>
+                    <input
+                      type="number"
+                      [(ngModel)]="validator.Value"
+                      matInput
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div
+              *ngIf="
+                selectedElement.Name === 'Radio Button' ||
+                selectedElement.Name === 'Select Menu' ||
+                selectedElement.Name === 'CheckBox'
+              "
+            >
+              <div class="action-choices">
+                <p>Choices</p>
+                <button label=" New " mat-mini-fab (click)="addNewChoice()">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+              <div class="choices">
+                <mat-form-field
+                  *ngFor="let choice of selectedElement.Choices; let i = index"
+                >
+                  <mat-label>Choice {{ i }}</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    [(ngModel)]="choice.value"
+                    placeholder="Choice"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-conatiner">
+          <h2>Trender Property</h2>
+          <div class="property">
+            <mat-form-field [formGroup]="form">
+              <mat-label>Title</mat-label>
+              <input matInput formControlName="title" />
+              <mat-error
+                *ngIf="
+                  form.controls['title'].invalid &&
+                  form.controls['title'].touched
+                "
+                >Can not be Null!</mat-error
+              >
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Forms Columns</mat-label>
+              <input
+                matInput
+                [(ngModel)]="columns"
+                type="number"
+                min="1"
+                max="4"
+              />
+            </mat-form-field>
+            <mat-form-field [formGroup]="form">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description"></textarea>
+              <mat-error
+                *ngIf="
+                  form.controls['title'].invalid &&
+                  form.controls['title'].touched
+                "
+                >Can not be Null!</mat-error
+              >
+            </mat-form-field>
+            <div class="element-container" [formGroup]="form">
+              <label>Trender Image</label>
+              <div class="small-container">
+                <input
+                  style="display: none"
+                  formControlName="img"
+                  type="file"
+                  #uploader
+                />
+                <button
+                  style="max-width: fit-content"
+                  (click)="uploader.click()"
+                  type="button"
+                  mat-raised-button
+                  color="primary"
+                  extended
+                >
+                  Uploder<mat-icon>attach_file</mat-icon>
+                </button>
+                <small>{{ form.value.title }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="lab-div">
+          <div class="elements-list" id="elements">
+            <h2>Elements</h2>
+            <div
+              cdkDropList
+              [cdkDropListData]="elements"
+              #Arrelements="cdkDropList"
+              [cdkDropListConnectedTo]="[ArrcreatElements]"
+              class="container-list"
+              (cdkDropListDropped)="drop($event)"
+            >
+              <div class="box" *ngFor="let item of elements" cdkDrag>
+                <div class="small-box" *ngIf="item.Name === 'Input'">
+                  <mat-form-field>
+                    <mat-label>Input</mat-label>
+                    <input matInput type="text" disabled />
+                  </mat-form-field>
+                </div>
+                <div class="small-box" *ngIf="item.Name === 'Uploader'">
+                  <button mat-raised-button color="primary" extended disabled>
+                    Uploder<mat-icon>attach_file</mat-icon>
+                  </button>
+                </div>
+                <div class="small-box" *ngIf="item.Name === 'Select Menu'">
+                  <mat-form-field>
+                    <mat-label>Select Menu</mat-label>
+                    <mat-select disabled></mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="small-box" *ngIf="item.Name === 'TextArea'">
+                  <mat-form-field>
+                    <mat-label>TextArea</mat-label>
+                    <textarea rows="1" disabled matInput></textarea>
+                  </mat-form-field>
+                </div>
+                <!-- <div class="small-box" *ngIf="item.Name === 'CheckBox'">
+                  <input type="checkbox" disabled />
+                  <label>Check Box</label>
+                </div>
+                <div class="small-box" *ngIf="item.Name === 'Radio Button'">
+                  <input type="radio" disabled />
+                  <label>Radio Button</label>
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <div class="design-container">
+            <h2>Design</h2>
+            <div
+              cdkDropList
+              [cdkDropListData]="creatElements"
+              #ArrcreatElements="cdkDropList"
+              [cdkDropListConnectedTo]="[Arrelements]"
+              class="design-list"
+              (cdkDropListDropped)="drop($event)"
+              [style.grid-template-columns]="'repeat(' + columns + ',auto)'"
+            >
+              <div
+                class="box"
+                [style.grid-column]="'span ' + item.colSpan"
+                *ngFor="let item of creatElements"
+                cdkDrag
+              >
+                <mat-form-field *ngIf="item.Name === 'Input'">
+                  <mat-label>{{
+                    item.Label !== "" ? item.Label : "Label"
+                  }}</mat-label>
+                  <input [id]="item.Label" #inpt matInput [type]="item.Type" />
+                  <mat-hint>{{ item.Property.Hint }}</mat-hint>
+                </mat-form-field>
+                <mat-form-field *ngIf="item.Name === 'TextArea'">
+                  <mat-label>{{
+                    item.Label !== "" ? item.Label : "Label"
+                  }}</mat-label>
+                  <textarea matInput></textarea>
+                  <mat-hint>{{ item.Property.Hint }}</mat-hint>
+                </mat-form-field>
+                <div class="element-container" *ngIf="item.Name === 'Uploader'">
+                  <label>{{ item.Label !== "" ? item.Label : "Label" }}</label>
+                  <div class="small-container">
+                    <input style="display: none" type="file" #uploader />
+                    <button
+                      style="max-width: fit-content"
+                      (click)="uploader.click()"
+                      color="primary"
+                      mat-raised-button
+                      extended
+                    >
+                      Uploder<mat-icon>attach_file</mat-icon>
+                    </button>
+                    <small>{{ item.Property.Hint }}</small>
+                  </div>
+                </div>
+                <mat-form-field *ngIf="item.Name === 'Select Menu'">
+                  <mat-label>{{
+                    item.Label !== "" ? item.Label : "Label"
+                  }}</mat-label>
+                  <mat-select>
+                    <mat-option
+                      value="choice"
+                      *ngFor="let choice of item.Choices"
+                      >{{ choice.value }}</mat-option
+                    >
+                  </mat-select>
+                  <mat-hint>{{ item.Property.Hint }}</mat-hint>
+                </mat-form-field>
+                <div class="errors-div">
+                  <span *ngFor="let validator of item.Property.Validators">{{
+                    validator.ErrorMessage
+                  }}</span>
+                </div>
+                <div class="action">
+                  <button
+                    color="primary"
+                    mat-mini-fab
+                    Tooltip="Edit"
+                    (click)="Edit(item)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    mat-mini-fab
+                    color="primary"
+                    Tooltip="Delete"
+                    (click)="Delete(item)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="button-container">
+          <div class="left-buttons">
+            <button
+              mat-raised-button
+              label="Back"
+              icon="pi pi-angle-left"
+              (click)="openDialog()"
+              [style]="{
+                'font-size': '17px',
+                'font-style': 'italic',
+                'font-weight': '450',
+                'margin-right': '10px'
+              }"
+            >
+              Show
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

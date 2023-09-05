@@ -8,11 +8,16 @@ mat-sidenav {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-width: 25vw;
   background-color: $light-white;
-
-  .profile-img {
-    border-radius: 50%;
-    margin: 25px;
+  .img-div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .profile-img {
+      border-radius: 50%;
+      margin: 25px;
+    }
   }
   .menu-btn {
     width: 100%;

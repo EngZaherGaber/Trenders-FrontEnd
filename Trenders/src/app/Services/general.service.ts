@@ -18,7 +18,6 @@ export class GeneralService {
   getToken() {
     if (!this.token) {
       this.token = sessionStorage.getItem('Token');
-      console.log(this.token)
     }
     return this.token;
   }

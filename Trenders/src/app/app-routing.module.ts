@@ -26,6 +26,11 @@ const routes: Routes = [
             loadComponent: () => import('src/app/Components/Company-Components/profile/profile.component')
               .then(m => m.ProfileComponent), canActivate: [CompanyHomeGuardService]
           },
+          {
+            path: 'add-trender',
+            loadComponent: () => import('src/app/Components/Instituation-Components/form-builder/form-builder.component')
+              .then(m => m.FormBuilderComponent), canActivate: [InstituteHomeGuardService]
+          },
           // {
           //   path: '',
           //   pathMatch: 'full',

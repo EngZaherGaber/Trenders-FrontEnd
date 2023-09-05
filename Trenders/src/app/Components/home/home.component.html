@@ -9,15 +9,24 @@
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
-<mat-sidenav-container>
-  <mat-sidenav #sidenav="matSidenav" autosize>
-    <img
-      ngSrc="../../../assets/photo_2023-04-25_02-47-35.jpg"
-      alt="Profile"
-      width="250"
-      height="250"
-      class="profile-img"
-    />
+<mat-sidenav-container [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+  <mat-sidenav
+    #sidenav="matSidenav"
+    autosize
+    [mode]="mobileQuery.matches ? 'over' : 'side'"
+    [opened]="mobileQuery.matches ? false : true"
+    [fixedInViewport]="mobileQuery.matches"
+    fixedTopGap="56"
+  >
+    <div class="img-div">
+      <img
+        ngSrc="../../../assets/photo_2023-04-25_02-47-35.jpg"
+        alt="Profile"
+        width="100"
+        height="100"
+        class="profile-img"
+      />
+    </div>
     <div class="info">
       <h2>Zaher.Japr</h2>
       <small>Company</small>

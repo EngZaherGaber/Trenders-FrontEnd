@@ -1,0 +1,117 @@
+<div class="big-container">
+  <div class="small-container">
+    <h3>{{ data.title }}</h3>
+    <div class="form-container">
+      <form
+        [formGroup]="formGroup"
+        [style.grid-template-columns]="'repeat(' + data.Columns + ',1fr)'"
+      >
+        <div
+          class="box"
+          [style.grid-column]="'span ' + item.colSpan"
+          *ngFor="let item of data.details"
+        >
+          <mat-form-field *ngIf="item.Name === 'Input'">
+            <mat-label>{{
+              item.Label !== "" ? item.Label : "Label"
+            }}</mat-label>
+            <input
+              *ngIf="item.Type === 'text'; else NotCorrectType"
+              [id]="item.Label"
+              #inpt
+              matInput
+              [type]="item.Type"
+              value="input"
+              [formControlName]="item.Label"
+            />
+            <ng-template #NotCorrectType>
+              <input
+                *ngIf="item.Type !== 'text'"
+                [id]="item.Label"
+                #inpt
+                matInput
+                [type]="item.Type"
+                [min]="getMinValueValidatorValue(item)"
+                [max]="getMaxValueValidatorValue(item)"
+                [formControlName]="item.Label"
+              />
+            </ng-template>
+            <mat-hint>{{ item.Property.Hint }}</mat-hint>
+            <mat-error
+              *ngIf="
+                formGroup.controls[item.Label].invalid &&
+                formGroup.controls[item.Label].touched
+              "
+              >{{ getErrorMessage(item) }}</mat-error
+            >
+          </mat-form-field>
+          <div class="element-container" *ngIf="item.Name === 'Uploader'">
+            <label>{{ item.Label !== "" ? item.Label : "Label" }}</label>
+            <div class="small-container">
+              <input type="file" />
+              <small>{{ item.Property.Hint }}</small>
+              <div *ngFor="let validator of item.Property.Validators">
+                <div
+                  class="alert alert-danger"
+                  *ngIf="ifValid(item, validator)"
+                >
+                  {{ validator.ErrorMessage }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-form-field *ngIf="item.Name === 'Select Menu'">
+            <mat-label>{{
+              item.Label !== "" ? item.Label : "Label"
+            }}</mat-label>
+            <mat-select
+              [formControlName]="item.Label"
+              (selectionChange)="show()"
+              [multiple]="item.Type === 'multiple'"
+            >
+              <mat-option>Select Menu</mat-option>
+              <mat-option
+                [value]="choice.value"
+                *ngFor="let choice of item.Choices"
+              >
+                {{ choice.value }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>{{ item.Property.Hint }}</mat-hint>
+            <mat-error
+              *ngIf="
+                formGroup.controls[item.Label].invalid &&
+                formGroup.controls[item.Label].touched
+              "
+              >{{ getErrorMessage(item) }}</mat-error
+            >
+          </mat-form-field>
+          <mat-form-field *ngIf="item.Name === 'TextArea'">
+            <mat-label>{{
+              item.Label !== "" ? item.Label : "Label"
+            }}</mat-label>
+            <textarea
+              [id]="item.Label"
+              #inpt
+              matInput
+              [type]="item.Type"
+              value="input"
+              maxlength="hasMaxLengthValidator(item.property.validators)"
+              minlength="hasMinLengthValidator(item.property.validators)"
+              [formControlName]="item.Label"
+            ></textarea>
+
+            <mat-hint>{{ item.Property.Hint }}</mat-hint>
+            <mat-error
+              *ngIf="
+                formGroup.controls[item.Label].invalid &&
+                formGroup.controls[item.Label].touched
+              "
+              >{{ getErrorMessage(item) }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
