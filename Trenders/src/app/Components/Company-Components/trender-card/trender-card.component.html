@@ -9,32 +9,39 @@
       />
     </div>
     <h3>
-      <mat-card-title>{{ trender.institute.name }}</mat-card-title>
+      <mat-card-title>{{ trender.institution_id }}</mat-card-title>
     </h3>
   </mat-card-header>
 
-  <div
+  <!-- <div
     mat-card-image
     class="trender-img"
     [style]="'background-image: url(\'' + trender.institute.img + '\')'"
-  ></div>
+  ></div> -->
   <mat-card-content>
     <h2>{{ trender.title }}</h2>
     <input type="checkbox" class="toggle" [id]="'toggle' + trender.id" />
     <label [for]="'toggle' + trender.id" *ngIf="trender.description"></label>
     <p>
-      {{ trender.description }} Lorem ipsum dolor sit amet consectetur
-      adipisicing elit. Vel quo possimus nesciunt quisquam dolore aliquam quas.
-      Fugiat quos explicabo vel eveniet voluptatum commodi praesentium
-      repudiandae voluptatibus? Veritatis ipsam aliquid maxime. Lorem ipsum
-      dolor sit amet consectetur adipisicing elit. Ratione cum, fugit
-      necessitatibus aliquid eaque, voluptate, temporibus sint similique tempore
-      vitae ad sapiente! Voluptatum saepe cupiditate, vel perferendis expedita
-      eius reprehenderit.
+      {{ trender.description }}
     </p>
+    <h5>
+      Created At:
+      {{ trender.created_at | date : "MM/dd/yyyy" }}
+    </h5>
+    <h5>
+      Ended At:
+      {{ trender.ended_at | date : "MM/dd/yyyy" }}
+    </h5>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-fab extended color="primary" (click)="addOffer()">
+    <button
+      (click)="addOffer()"
+      mat-fab
+      extended
+      color="primary"
+      (click)="addOffer()"
+    >
       <mat-icon>add</mat-icon>Add Offer
     </button>
   </mat-card-actions>

@@ -30,7 +30,10 @@
             >
               <mat-form-field>
                 <mat-label>Types</mat-label>
-                <mat-select [(ngModel)]="selectedElement.Type">
+                <mat-select
+                  [(ngModel)]="selectedElement.Type"
+                  (selectionChange)="Edit(selectedElement)"
+                >
                   <mat-option *ngFor="let type of Types" [value]="type">{{
                     type
                   }}</mat-option>
@@ -67,7 +70,9 @@
                   *ngFor="let validator of selectedElement.Property.Validators"
                 >
                   <h4>{{ validator.Type }}</h4>
-                  <mat-form-field>
+                  <mat-form-field
+                    *ngIf="validator.Type !== 'min' && validator.Type !== 'max'"
+                  >
                     <mat-label>Error Message</mat-label>
                     <input
                       type="text"

@@ -1,15 +1,15 @@
 <div class="big-container">
   <div class="small-container">
-    <h3>{{ data.title }}</h3>
+    <h3>{{ res.title }}</h3>
     <div class="form-container">
       <form
         [formGroup]="formGroup"
-        [style.grid-template-columns]="'repeat(' + data.columns + ',1fr)'"
+        [style.grid-template-columns]="'repeat(' + res.columns + ',1fr)'"
       >
         <div
           class="box"
           [style.grid-column]="'span ' + item.colSpan"
-          *ngFor="let item of data.details"
+          *ngFor="let item of res.details"
         >
           <mat-form-field *ngIf="item.Name === 'Input'">
             <mat-label>{{

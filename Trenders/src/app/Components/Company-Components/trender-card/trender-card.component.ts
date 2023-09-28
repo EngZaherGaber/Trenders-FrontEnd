@@ -15,6 +15,6 @@ export class TrenderCardComponent {
   constructor(private router: Router) { }
   @Input('trender') trender: Trender;
   addOffer() {
-    this.router.navigate(['/add-offer', this.trender.id]);
+    this.router.navigate(['company/add-offer', this.trender.id]);
   }
 }

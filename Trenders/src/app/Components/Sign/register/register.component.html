@@ -71,7 +71,7 @@
               </button>
             </mat-radio-button>
             <mat-radio-button
-              value="institute"
+              value="instute"
               class="rd-btn"
               style="width: 100%"
             >
@@ -79,7 +79,7 @@
                 type="button"
                 style="width: 100%"
                 [color]="
-                  form.controls.user_info.value.type === 'institute'
+                  form.controls.user_info.value.type === 'instute'
                     ? 'accent'
                     : 'primary'
                 "
@@ -87,13 +87,13 @@
                 extended
                 (click)="
                   this.form.controls.user_info.controls.type.patchValue(
-                    'institute'
+                    'instute'
                   )
                 "
               >
                 <mat-icon
                   [color]="
-                    form.controls.user_info.value.type !== 'institute'
+                    form.controls.user_info.value.type !== 'instute'
                       ? 'accent'
                       : 'primary'
                   "

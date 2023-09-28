@@ -73,10 +73,13 @@
       </div>
     </div>
   </div>
-  <div class="trenders">
+  <div class="trenders" *ngIf="(trenders$ | async)?.length !== 0; else loading">
     <app-trender-card
       [trender]="trender"
-      *ngFor="let trender of Trenders"
+      *ngFor="let trender of trenders$ | async"
     ></app-trender-card>
   </div>
+  <ng-template #loading>
+    <mat-spinner></mat-spinner>
+  </ng-template>
 </div>

@@ -1,6 +1,6 @@
 <div class="trenders">
   <app-trender-card-institutaion
     [trender]="trender"
-    *ngFor="let trender of trenders"
+    *ngFor="let trender of $trenders | async"
   ></app-trender-card-institutaion>
 </div>

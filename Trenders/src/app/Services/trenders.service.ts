@@ -1,32 +1,70 @@
 import { Injectable } from '@angular/core';
 import { Trender } from '../Interfaces/trender';
+import { GeneralService } from './general.service';
+import { HttpClient } from '@angular/common/http';
+import { Observable, ReplaySubject, Subject, catchError, concatMap, exhaustMap, filter, forkJoin, from, map, mergeMap, of, shareReplay, toArray } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TrendersService {
+  url: string;
+  trenderSubject: ReplaySubject<Trender[]> = new ReplaySubject<Trender[]>(2);
+  // Tenders: Trender[] = [
+  //   {
+  //     id: 1, title: 'Electronic Trender', description: 'Pla pla', institute: {
+  //       id: 1, name: 'Elec', address: 'Damascus', created_at: '12/12/2022', categories: [{ id: 1, name: 'electronics' }], img: './\assets/\photo_2023-04-25_02-47-35.jpg'
+  //     }, details: [], img: ''
+  //   },
+  //   {
+  //     id: 2, title: 'Electronic Trender', description: 'Pla pla', institute: {
+  //       id: 1, name: 'Elec', address: 'Damascus', created_at: '12/12/2022', categories: [{ id: 1, name: 'electronics' }], img: './\assets/\photo_2023-04-25_02-47-35.jpg'
+  //     }, details: [], img: ''
+  //   }
+  // ]
 
-  Tenders: Trender[] = [
-    {
-      id: 1, title: 'Electronic Trender', description: 'Pla pla', institute: {
-        id: 1, name: 'Elec', address: 'Damascus', created_at: '12/12/2022', categories: [{ id: 1, name: 'electronics' }], img: './\assets/\photo_2023-04-25_02-47-35.jpg'
-      }, details: [], img: ''
-    },
-    {
-      id: 2, title: 'Electronic Trender', description: 'Pla pla', institute: {
-        id: 1, name: 'Elec', address: 'Damascus', created_at: '12/12/2022', categories: [{ id: 1, name: 'electronics' }], img: './\assets/\photo_2023-04-25_02-47-35.jpg'
-      }, details: [], img: ''
-    }
-  ]
+  constructor(private general: GeneralService, private http: HttpClient) {
+    this.url = general.getUrl();
 
-  constructor() { }
+  }
 
-  getTenders() {
-    if (this.Tenders.length > 0) {
-      return this.Tenders;
+  getTenders(): Observable<Trender[]> {
+    const url = this.url + 'trender';
+    if (!this.trenderSubject.observers.length) {
+      this.http.get<Trender[]>(url).pipe(
+        catchError((error) => {
+          throw error;
+        }),
+
+        shareReplay(1)
+      ).subscribe(res => {
+        return this.trenderSubject.next(res)
+      }
+      );
     }
-    else {
-      return null;
-    }
+    return this.trenderSubject.asObservable();
+  }
+
+  getTrender(id): Observable<any> {
+    const url = this.url + 'trender/' + id;
+    return this.http.get(url).pipe(
+      catchError((error) => {
+        throw error
+      }),
+      // map((x: any) => x.data)
+    )
   }
 }
+// exhaustMap((trenders: Trender[]) => {
+//   // Create an observable sequence that processes each trender one at a time
+//   return from(trenders).pipe(
+//     concatMap((trender) => this.getTrender(trender.id).pipe(catchError(err => {
+
+//       console.log('err')
+//       return of(null)
+//     }),)),
+
+//     filter(result => result !== null),
+//     toArray() // Collect the results back into an array
+//   );
+// }),

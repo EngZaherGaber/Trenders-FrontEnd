@@ -46,11 +46,11 @@ export class HomeComponent {
 
   //   this.observer.observe(["(max-width: 800px)"]).subscribe((res) => {
   //     if (res.matches) {
-  //       debugger
+  //       
   //       this.sidenav.mode = "over";
   //       this.sidenav.close();
   //     } else {
-  //       debugger
+  //       
   //       this.sidenav.mode = "side";
   //       this.sidenav.open();
   //     }

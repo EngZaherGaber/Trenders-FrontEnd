@@ -1,1 +1,217 @@
-<p>profile works!</p>
+<div class="big-container">
+  <mat-tab-group dynamicHeight="true">
+    <mat-tab class="Info-tab" label="Info">
+      <div class="Info-tab">
+        <div class="img-div">
+          <img
+            ngSrc="../../../../assets/photo_2023-04-25_02-47-35.jpg"
+            width="200"
+            height="200"
+            alt=""
+          />
+          <input
+            type="file"
+            accept="image/*"
+            style="display: none"
+            #fileInput
+          />
+          <div class="actions">
+            <button (click)="fileInput.click()" mat-icon-button>
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+        </div>
+        <form [formGroup]="form">
+          <div class="info">
+            <mat-tab-group dynamicHeight="true">
+              <mat-tab label="User Info">
+                <div class="user-info">
+                  <mat-card class="btn-div search" formGroupName="user_info">
+                    <mat-form-field>
+                      <mat-label>Username</mat-label>
+                      <input matInput formControlName="username" />
+                      <mat-error
+                        *ngIf="
+                          form.controls.user_info.controls.username.invalid &&
+                          form.controls.user_info.controls.username.touched
+                        "
+                        >{{ getUsernameErrorMessage() }}</mat-error
+                      >
+                    </mat-form-field>
+
+                    <mat-form-field>
+                      <mat-label>Email</mat-label>
+                      <input matInput formControlName="email" />
+                      <mat-error
+                        *ngIf="
+                          form.controls.user_info.controls.email.invalid &&
+                          form.controls.user_info.controls.email.touched
+                        "
+                        >{{ getEmailErrorMessage() }}</mat-error
+                      >
+                    </mat-form-field>
+
+                    <div class="action-div">
+                      <button
+                        type="button"
+                        mat-stroked-button
+                        color="primary"
+                        (click)="ChangePassword()"
+                      >
+                        Change Password
+                      </button>
+                      <div>
+                        <button
+                          (click)="form.controls.user_info.enable()"
+                          type="button"
+                          mat-raised-button
+                          color="accent"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          mat-raised-button
+                          color="primary"
+                          [disabled]="
+                            form.controls.user_info.disabled ||
+                            form.controls.user_info.controls.email.invalid ||
+                            form.controls.user_info.controls.username.invalid
+                          "
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </mat-card>
+                </div>
+              </mat-tab>
+              <mat-tab label="Institute Info">
+                <div class="type-info search" formGroupName="other_info">
+                  <mat-card class="btn-div">
+                    <mat-form-field>
+                      <mat-label>Categories</mat-label>
+                      <mat-select formControlName="categories" multiple>
+                        <mat-option
+                          *ngFor="let catgeory of Lcategories$ | async"
+                          [value]="catgeory.id"
+                          >{{ catgeory.name }}</mat-option
+                        >
+                      </mat-select>
+                      <mat-error
+                        *ngIf="
+                          form.controls.other_info.controls.createdDate
+                            .invalid &&
+                          form.controls.other_info.controls.createdDate.touched
+                        "
+                        >{{ getCategoriesErrorMessage() }}</mat-error
+                      >
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Created Date</mat-label>
+                      <input
+                        matInput
+                        [matDatepicker]="picker"
+                        placeholder="YYYY"
+                        formControlName="createdDate"
+                        #inpyeardate
+                        hidden
+                      />
+                      <input matInput [value]="inpyeardate.value.slice(6)" />
+                      <mat-hint>YYYY</mat-hint>
+                      <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="picker"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker
+                        #picker
+                        (yearSelected)="onYearSelected($event, picker)"
+                        startView="multi-year"
+                        yearSelect="true"
+                        [panelClass]="'year-picker'"
+                      ></mat-datepicker>
+                      <mat-error
+                        *ngIf="
+                          form.controls.other_info.controls.createdDate
+                            .invalid &&
+                          form.controls.other_info.controls.createdDate.touched
+                        "
+                        >{{ getCreatedDateErrorMessage() }}</mat-error
+                      >
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>City</mat-label>
+                      <mat-select formControlName="address">
+                        <mat-option
+                          *ngFor="let item of Lcities$ | async"
+                          [value]="item"
+                          >{{ item }}</mat-option
+                        >
+                      </mat-select>
+                      <mat-error
+                        *ngIf="
+                          form.controls.other_info.controls.address.invalid &&
+                          form.controls.other_info.controls.address.touched
+                        "
+                        >{{ getAddressErrorMessage() }}</mat-error
+                      >
+                    </mat-form-field>
+                    <mat-form-field
+                      *ngIf="this.form.controls.other_info.value.address !== ''"
+                    >
+                      <mat-label>Address</mat-label>
+                      <input
+                        (change)="changeAddress($event)"
+                        matInput
+                        name="address"
+                        required
+                      />
+                    </mat-form-field>
+                    <div class="action-div">
+                      <div></div>
+                      <div>
+                        <button
+                          type="button"
+                          (click)="form.controls.other_info.enable()"
+                          color="accent"
+                          mat-raised-button
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          mat-raised-button
+                          color="primary"
+                          [disabled]="
+                            form.controls.other_info.disabled ||
+                            form.controls.other_info.controls.categories
+                              .invalid ||
+                            form.controls.other_info.controls.createdDate
+                              .invalid ||
+                            form.controls.other_info.controls.address.invalid
+                          "
+                        >
+                          <!-- (click)="submit()" -->
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </mat-card>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+        </form>
+      </div>
+    </mat-tab>
+    <mat-tab label="Offers">
+      <mat-tab-group dynamicHeight="true">
+        <mat-tab label="Ended Offers">
+          <div class="offers-tab"></div>
+        </mat-tab>
+        <mat-tab label="Draft Offers"> </mat-tab>
+        <mat-tab label="Done Trenders"> </mat-tab>
+      </mat-tab-group>
+    </mat-tab>
+  </mat-tab-group>
+</div>

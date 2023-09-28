@@ -7,6 +7,7 @@ import { GeneralService } from './general.service';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Observable, catchError, mergeMap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -29,22 +30,41 @@ export class UserService {
       return false;
     }
   }
-  addUser(formdata: FormData) {
+  getProfile(): Observable<any> {
+    const url = this.url + 'profile';
+    const $getProfile = this.http.get(url);
+    return $getProfile;
+  }
+  addUser(formdata: FormData, type: string) {
     const url = this.url + 'register';
 
+    this.http.post(url, formdata).pipe(
 
-    this.http.post(url, formdata).subscribe(res => {
-      if (res['token']) {
-        this.general.changeToken(res['token']);
-        this._snackBar.open('Correct Register');
-        this.route.navigate(['/home']);
-      }
+      mergeMap((res) => {
+        if (res) {
+          this.general.changeToken(res['token']);
+          type === 'company' ? this.route.navigate(['/company']) : this.route.navigate(['/institute']);
+          this._snackBar.open('Correct Register');
+          return this.getProfile()
+        }
+        else {
+          return null
+        }
+      }),
+      catchError((error) => {
+        console.log('error', error);
+        return throwError('An Error')
+      }) // Corrected mergeMap usage
+    ).subscribe(
+      (res) => {
+        if (res) {
 
-    },
-      err => {
-        this._snackBar.open(err['error']['message']);
+        }
+      },
+      (err) => {
+        this._snackBar.open(err['message']);
       }
-    )
+    );
   }
   deleteUser(id: number) {
 
@@ -55,14 +75,26 @@ export class UserService {
       email: email,
       password: password
     }
-    this.http.post(url, body).subscribe(res => {
+    this.http.post(url, body).pipe(
+
+      mergeMap((res) => {
+        if (res) {
+          this.general.changeToken(res['token']);
+          return this.getProfile()
+        }
+        else {
+          return null
+        }
+      }),
+      catchError((error) => {
+        console.log('error', error);
+        return throwError('An Error')
+      }) // Corrected mergeMap usage
+    ).subscribe(res => {
       if (res['token']) {
-        this.general.changeToken(res['token']);
+        res['type'] === 'company' ? this.route.navigate(['/company']) : this.route.navigate(['/institute']);
         this._snackBar.open('Correct Login');
-
-        this.route.navigate(['/home']);
       }
-
     },
       err => {
         this._snackBar.open(err['error']['message']);
