@@ -21,25 +21,21 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class FormViewerComponent {
   constructor(
-    // public dialogRef: MatDialogRef<FormViewerComponent>,
-    // @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<FormViewerComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private trndrSrv: TrendersService,
     private router: ActivatedRoute
   ) { }
   @ViewChild('form') formDesign: ElementRef;
   formGroup: FormGroup;
-  res: any
+  // res: any
 
   ngOnInit(): void {
-    this.router.params.subscribe(x => {
-      this.trndrSrv.getTrender(x['id']).subscribe(x => {
-        this.res = x.data.trender_details;
-        console.log(this.res)
-      });
-      this.res.details = this.addValueProperty(this.res.details);
-      this.createForm();
-    })
+
+    this.data.details = this.addValueProperty(this.data.details);
+    console.log(this.data)
+    this.createForm();
   }
   ifValid(item, validator): boolean {
     if (this.formGroup.controls[item.Label].errors === null) {
@@ -56,7 +52,7 @@ export class FormViewerComponent {
   createForm() {
     this.formGroup = this.fb.group({});
 
-    for (let element of this.res.details) {
+    for (let element of this.data.details) {
       let control = this.fb.control(element.Name === 'Select Menu' && element.Type === 'multiple' ? [] : '');
       element.Property.Validators.forEach((validator) => {
 
