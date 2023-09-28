@@ -16,8 +16,8 @@ export class CategoriesService {
     const url = this.general.getUrl() + 'category';
     return this.http.get(url).pipe(
       map((res: any) => {
-        if (res['data']) {
-          return res['data'] as Category[]; // Convert the response data to Category interface
+        if (res) {
+          return res as Category[] // Convert the response data to Category interface
         }
         else {
           return null;

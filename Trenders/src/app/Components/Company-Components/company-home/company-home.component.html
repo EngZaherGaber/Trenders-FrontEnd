@@ -6,10 +6,10 @@
         <input
           class="search"
           matInput
-          formControlName="username"
-          (keyup.enter)="Search()"
+          #searchV
+          (input)="searchInput$.next(searchV.value)"
         />
-        <button mat-icon-button matSuffix (click)="Search()">
+        <button mat-icon-button matSuffix disabled="true">
           <mat-icon>search</mat-icon>
         </button>
       </mat-form-field>
@@ -26,10 +26,10 @@
           <input
             class="search"
             matInput
-            formControlName="username"
-            (keyup.enter)="Search()"
+            #categorySearch
+            (input)="categorySearch$.next(categorySearch.value)"
           />
-          <button mat-icon-button matSuffix (click)="Search()">
+          <button mat-icon-button matSuffix disabled="true">
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
@@ -37,11 +37,7 @@
       <div class="categories">
         <div class="list" #list>
           <div class="category" *ngFor="let category of Lcategories$ | async">
-            <input
-              [id]="category.name"
-              type="checkbox"
-              [value]="category.name"
-            />
+            <input [id]="category.name" type="checkbox" [value]="category.id" />
             <label [for]="category.name">{{ category.name }}</label>
           </div>
         </div>
@@ -55,10 +51,10 @@
           <input
             class="search"
             matInput
-            formControlName="username"
-            (keyup.enter)="Search()"
+            #citiesSearch
+            (input)="citiesSearch$.next(citiesSearch.value)"
           />
-          <button mat-icon-button matSuffix (click)="Search()">
+          <button mat-icon-button matSuffix>
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
@@ -66,7 +62,12 @@
       <div class="cities">
         <div class="list" #Clist>
           <div class="category" *ngFor="let city of Lcities$ | async">
-            <input [id]="city" type="checkbox" [value]="city" />
+            <input
+              [id]="city"
+              type="checkbox"
+              [value]="city"
+              (change)="listCity(city)"
+            />
             <label [for]="city">{{ city }}</label>
           </div>
         </div>
@@ -80,6 +81,7 @@
     ></app-trender-card>
   </div>
   <ng-template #loading>
-    <mat-spinner></mat-spinner>
+    <!-- <mat-spinner *ngIf="showSpinner"></mat-spinner>
+    <h3 *ngIf="searchInput$ | async">No Results Found</h3> -->
   </ng-template>
 </div>

@@ -56,8 +56,8 @@ export class LoginComponent {
 
   submit() {
     if (!this.form.invalid) {
-      this.userSrv.loggingUser = this.user;
-      this.router.navigate(['/home']);
+      // this.userSrv.loggingUser = this.user;
+      // this.router.navigate(['/home']);
     }
   }
 
@@ -66,7 +66,12 @@ export class LoginComponent {
   }
 
   login() {
-    this.userSrv.login(this.form.value.inp, this.form.value.password);
+    if (!this.form.invalid) {
+      this.userSrv.login(this.form.value.inp, this.form.value.password);
+    }
+    else {
+      this.form.markAllAsTouched();
+    }
   }
 }
 

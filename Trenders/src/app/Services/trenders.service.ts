@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Trender } from '../Interfaces/trender';
 import { GeneralService } from './general.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, ReplaySubject, Subject, catchError, concatMap, exhaustMap, filter, forkJoin, from, map, mergeMap, of, shareReplay, toArray } from 'rxjs';
 
 @Injectable({
@@ -28,21 +28,23 @@ export class TrendersService {
 
   }
 
-  getTenders(): Observable<Trender[]> {
+  getTenders(search: string, categories: number[], cities: string[]): Observable<Trender[]> {
     const url = this.url + 'trender';
-    if (!this.trenderSubject.observers.length) {
-      this.http.get<Trender[]>(url).pipe(
-        catchError((error) => {
-          throw error;
-        }),
-
-        shareReplay(1)
-      ).subscribe(res => {
-        return this.trenderSubject.next(res)
-      }
-      );
-    }
-    return this.trenderSubject.asObservable();
+    let params = new HttpParams().set('q', search);
+    debugger
+    categories.forEach(category => {
+      params = params.append('category_ids[]', category.toString());
+    });
+    cities.forEach(city => {
+      params = params.append('cities[]', city.toString());
+    })
+    return this.http.get<Trender[]>(url, { params: params }).pipe(
+      catchError((error) => {
+        return of(null);
+      }),
+      map(res => res as Trender[]),
+      shareReplay(1)
+    )
   }
 
   getTrender(id): Observable<any> {

@@ -7,6 +7,7 @@ import { BreakpointObserver, MediaMatcher } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { UserService } from 'src/app/Services/user.service';
 import { GeneralService } from 'src/app/Services/general.service';
+import { User } from 'src/app/Interfaces/user';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,8 @@ import { GeneralService } from 'src/app/Services/general.service';
 })
 export class HomeComponent {
   home: string = '';
-  userType: string = 'institute';
+  userType: string = '';
+  user: User;
   mobileQuery: MediaQueryList;
 
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
@@ -31,15 +33,49 @@ export class HomeComponent {
     this.mobileQuery = media.matchMedia('(max-width: 600px)')
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+    this.usrSrv.getProfile().subscribe(res => {
+      this.usrSrv.loggingUser = {
+        id: res.id,
+        username: res.name,
+        email: res.email,
+        password: null,
+        isCompany: this.usrSrv.isCompany
+      };
+    });
+
   }
   ngOnInit() {
-    if (this.userType === 'company') {
-      // this.router.navigate(['home/company'])
-      this.home = 'company';
-    }
-    else {
-      // this.router.navigate(['home/institute'])
-      this.home = 'institute';
+    // this.userType = this.usrSrv.isCompany ? 'company' : 'institute';
+    if (this.usrSrv.loggingUser) {
+      this.user = this.usrSrv.loggingUser;
+      if (this.user.isCompany) {
+        this.router.navigate(['company'])
+        this.home = 'company';
+      }
+      else {
+        this.router.navigate(['institute'])
+        this.home = 'institute';
+      }
+    } else {
+      this.usrSrv.getProfile().subscribe(res => {
+        this.usrSrv.loggingUser = {
+          id: res.user.id,
+          username: res.user.name,
+          email: res.user.email,
+          password: null,
+          isCompany: res.is_company
+        };
+        this.user = this.usrSrv.loggingUser
+        this.userType = this.user.isCompany ? 'company' : 'institute';
+        if (this.user.isCompany) {
+          this.router.navigate(['company'])
+          this.home = 'company';
+        }
+        else {
+          this.router.navigate(['institute'])
+          this.home = 'institute';
+        }
+      })
     }
   }
   // ngAfterViewInit() {

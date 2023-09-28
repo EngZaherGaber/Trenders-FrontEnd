@@ -20,7 +20,7 @@ export class HttpInterceptor implements HttpInterceptor {
     if (index === -1) {
       const modifiedReq = request.clone({
         setHeaders: {
-          Authorization: this.generalSrv.getToken(),
+          Authorization: 'Bearer ' + this.generalSrv.getToken(),
         }
       })
       return next.handle(modifiedReq);

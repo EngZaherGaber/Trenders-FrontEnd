@@ -285,7 +285,7 @@
           </mat-form-field>
           <mat-form-field>
             <mat-label>City</mat-label>
-            <mat-select formControlName="address">
+            <mat-select formControlName="city">
               <mat-option
                 *ngFor="let item of Lcities$ | async"
                 [value]="item"
@@ -300,16 +300,9 @@
               >{{ getAddressErrorMessage() }}</mat-error
             >
           </mat-form-field>
-          <mat-form-field
-            *ngIf="this.form.controls.other_info.value.address !== ''"
-          >
+          <mat-form-field>
             <mat-label>Address</mat-label>
-            <input
-              (change)="changeAddress($event)"
-              matInput
-              name="address"
-              required
-            />
+            <input matInput formControlName="address" required />
           </mat-form-field>
           <div class="action-div">
             <button type="button" matStepperPrevious mat-raised-button>

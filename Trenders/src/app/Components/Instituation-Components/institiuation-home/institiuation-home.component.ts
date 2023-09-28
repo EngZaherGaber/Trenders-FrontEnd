@@ -17,6 +17,6 @@ export class InstitiuationHomeComponent {
   $trenders: Observable<Trender[]>;
   constructor(private trenderSrv: TrendersService) { }
   ngOnInit() {
-    this.$trenders = this.trenderSrv.getTenders();
+    this.$trenders = this.trenderSrv.getTenders('', [], []);
   }
 }

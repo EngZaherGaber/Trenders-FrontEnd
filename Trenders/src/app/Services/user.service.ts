@@ -14,6 +14,7 @@ import { Observable, catchError, mergeMap, throwError } from 'rxjs';
 })
 export class UserService {
   loggingUser: User;
+  isCompany: boolean;
   url: string;
   constructor(private general: GeneralService, private route: Router, private http: HttpClient, private _snackBar: MatSnackBar) {
     this.url = general.getUrl();
@@ -32,7 +33,7 @@ export class UserService {
   }
   getProfile(): Observable<any> {
     const url = this.url + 'profile';
-    const $getProfile = this.http.get(url);
+    const $getProfile = this.http.get<any>(url);
     return $getProfile;
   }
   addUser(formdata: FormData, type: string) {
@@ -76,28 +77,29 @@ export class UserService {
       password: password
     }
     this.http.post(url, body).pipe(
-
       mergeMap((res) => {
         if (res) {
           this.general.changeToken(res['token']);
-          return this.getProfile()
+          this.isCompany = res['is_company'];
+          this.isCompany ? this.route.navigate(['/company']) : this.route.navigate(['/institute'])
+
+          return null
         }
         else {
           return null
         }
       }),
-      catchError((error) => {
-        console.log('error', error);
-        return throwError('An Error')
-      }) // Corrected mergeMap usage
     ).subscribe(res => {
+      debugger
       if (res['token']) {
-        res['type'] === 'company' ? this.route.navigate(['/company']) : this.route.navigate(['/institute']);
+        this.loggingUser.isCompany = res['type'] === 'company';
+        this.loggingUser.isCompany ? this.route.navigate(['/company']) : this.route.navigate(['/institute']);
         this._snackBar.open('Correct Login');
       }
     },
       err => {
-        this._snackBar.open(err['error']['message']);
+        // debugger
+        this._snackBar.open(err);
       }
     )
   }
