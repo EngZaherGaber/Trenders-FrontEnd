@@ -49,11 +49,11 @@ export class HomeComponent {
     if (this.usrSrv.loggingUser) {
       this.user = this.usrSrv.loggingUser;
       if (this.user.isCompany) {
-        this.router.navigate(['company'])
+        // this.router.navigate(['company'])
         this.home = 'company';
       }
       else {
-        this.router.navigate(['institute'])
+        // this.router.navigate(['institute'])
         this.home = 'institute';
       }
     } else {
@@ -68,11 +68,11 @@ export class HomeComponent {
         this.user = this.usrSrv.loggingUser
         this.userType = this.user.isCompany ? 'company' : 'institute';
         if (this.user.isCompany) {
-          this.router.navigate(['company'])
+          // this.router.navigate(['company'])
           this.home = 'company';
         }
         else {
-          this.router.navigate(['institute'])
+          // this.router.navigate(['institute'])
           this.home = 'institute';
         }
       })
