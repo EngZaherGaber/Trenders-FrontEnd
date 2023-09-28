@@ -54,7 +54,7 @@ export class CompanyHomeComponent {
       debounceTime(2000),
       // distinctUntilChanged(),
       switchMap((searchValue: string) => {
-        debugger
+
         this.showSpinner = true;
         return this.trenderSrv.getTenders(searchValue, this.selectedCategories, this.selectedCities)
           .pipe(finalize(() => this.showSpinner = true))
@@ -71,7 +71,7 @@ export class CompanyHomeComponent {
     else {
       this.selectedCities.push(value);
     }
-    debugger
+
     this.searchInput$.next('');
   }
   listCategories(value) {

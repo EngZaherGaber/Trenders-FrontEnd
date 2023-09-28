@@ -31,7 +31,7 @@ export class TrendersService {
   getTenders(search: string, categories: number[], cities: string[]): Observable<Trender[]> {
     const url = this.url + 'trender';
     let params = new HttpParams().set('q', search);
-    debugger
+
     categories.forEach(category => {
       params = params.append('category_ids[]', category.toString());
     });

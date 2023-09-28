@@ -90,7 +90,7 @@ export class UserService {
         }
       }),
     ).subscribe(res => {
-      debugger
+
       if (res['token']) {
         this.loggingUser.isCompany = res['type'] === 'company';
         this.loggingUser.isCompany ? this.route.navigate(['/company']) : this.route.navigate(['/institute']);
@@ -98,7 +98,7 @@ export class UserService {
       }
     },
       err => {
-        // debugger
+        // 
         this._snackBar.open(err);
       }
     )
